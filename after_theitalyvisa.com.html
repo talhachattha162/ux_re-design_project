@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italy Visa Application Centre — Pakistan</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;color:#1a1a2e;background:#f8f9fc}
+:root{--g:#006B3F;--gl:#e8f5ee;--gm:#b2d8c2;--b:#1565C0;--bl:#e3f0ff;--t:#1a1a2e;--tm:#5c6078;--br:#dde1ec}
+.c{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .2s}
+.bp{background:var(--g);color:#fff}.bp:hover{background:#004f2e}
+.bs{background:#fff;color:var(--g);border:1.5px solid var(--g)}.bs:hover{background:var(--gl)}
+.bg{background:transparent;color:var(--tm);border:1px solid var(--br)}.bg:hover{background:#f0f1f5}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
+.tg{background:var(--gl);color:var(--g)}.tb{background:var(--bl);color:var(--b)}
+ 
+/* TOPBAR + NAV */
+.topbar{background:var(--g);color:rgba(255,255,255,.9);font-size:12.5px;padding:6px 0}
+.topbar .c{display:flex;justify-content:space-between;align-items:center}
+.lang-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:4px 12px;border-radius:20px;font-size:12px;cursor:pointer}
+nav{background:#fff;border-bottom:1px solid var(--br);position:sticky;top:0;z-index:100;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-icon{width:36px;height:36px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo strong{font-size:14px;display:block}.logo span{font-size:11px;color:var(--tm)}
+.navl{display:flex;gap:2px}
+.nl{color:var(--tm);font-size:13px;font-weight:500;padding:7px 12px;border-radius:6px;cursor:pointer;transition:all .2s}
+.nl:hover,.nl.act{color:var(--g);background:var(--gl)}
+.cpbtn{display:flex;align-items:center;gap:6px;background:var(--bl);color:var(--b);border:1.5px solid #b3d1f7;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
+ 
+/* PAGES */
+.page{display:none}.page.on{display:block}
+ 
+/* HERO */
+.hero{background:linear-gradient(135deg,#004f2e,#006B3F,#008450);color:#fff;padding:52px 0 60px;overflow:hidden;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
+.hero-g{display:grid;grid-template-columns:1fr 370px;gap:3rem;align-items:center;position:relative;z-index:1}
+.hero h1{font-size:2.3rem;font-weight:700;line-height:1.2;margin-bottom:.9rem}
+.hero p{color:rgba(255,255,255,.82);font-size:1rem;margin-bottom:1.6rem;max-width:440px}
+.hbtns{display:flex;gap:10px;flex-wrap:wrap}
+.hbm{background:#fff;color:var(--g);padding:11px 22px;border-radius:8px;font-weight:700;font-size:14.5px;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .2s}
+.hbm:hover{background:#f0fff6;transform:translateY(-1px)}
+.hbs{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);color:#fff;padding:11px 20px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.hbs:hover{background:rgba(255,255,255,.25)}
+.perks{display:flex;gap:14px;margin-top:1.4rem;flex-wrap:wrap}
+.perks span{font-size:12.5px;color:rgba(255,255,255,.75)}
+ 
+/* STATUS CARD */
+.scard{background:#fff;border-radius:14px;padding:1.5rem;color:var(--t);box-shadow:0 4px 20px rgba(0,0,0,.12)}
+.scard h3{font-size:14.5px;font-weight:700;margin-bottom:1rem}
+.ig label{font-size:12px;font-weight:600;color:var(--tm);display:block;margin-bottom:4px}
+.ig input{width:100%;padding:9px 12px;border:1.5px solid var(--br);border-radius:7px;font-size:14px;font-family:'Inter',sans-serif;margin-bottom:9px}
+.ig input:focus{outline:none;border-color:var(--g)}
+.div2{text-align:center;font-size:12px;color:var(--tm);margin:10px 0;position:relative}
+.div2::before,.div2::after{content:'';position:absolute;top:50%;width:44%;height:1px;background:var(--br)}
+.div2::before{left:0}.div2::after{right:0}
+ 
+/* SECTIONS */
+.sec{padding:48px 0}
+.sec-w{background:#fff;border-bottom:1px solid var(--br)}
+.sh{text-align:center;margin-bottom:2rem}
+.sh .ey{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g);display:block;margin-bottom:6px}
+.sh h2{font-size:1.65rem;font-weight:700;margin-bottom:6px}
+.sh p{font-size:14px;color:var(--tm)}
+ 
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);position:relative}
+.steps::before{content:'';position:absolute;top:27px;left:10%;right:10%;height:2px;background:var(--gm);z-index:0}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 6px;position:relative;z-index:1}
+.sc{width:54px;height:54px;border-radius:50%;border:2.5px solid var(--g);background:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:10px;position:relative}
+.sn{position:absolute;top:-4px;right:-4px;width:19px;height:19px;border-radius:50%;background:var(--g);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.step h4{font-size:12px;font-weight:700;margin-bottom:3px}
+.step p{font-size:11.5px;color:var(--tm)}
+ 
+/* ACTION CARDS */
+.agrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:1.5rem}
+.acard{background:#fff;border:1.5px solid var(--br);border-radius:14px;padding:1.5rem;cursor:pointer;transition:all .2s}
+.acard:hover{border-color:var(--g);box-shadow:0 4px 20px rgba(0,0,0,.12);transform:translateY(-2px)}
+.ai{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:.9rem}
+.aig{background:var(--gl)}.aib{background:var(--bl)}.aio{background:#fdf6e3}
+.acard h3{font-size:15px;font-weight:700;margin-bottom:5px}
+.acard p{font-size:13px;color:var(--tm);line-height:1.5}
+.arr{font-size:13px;font-weight:600;color:var(--g);margin-top:10px;display:inline-block}
+ 
+/* QUEUE BANNER */
+.qbanner{background:linear-gradient(135deg,#e8f5ee,#d4eede);border:1px solid var(--gm);border-radius:12px;padding:1.2rem 1.6rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.qdot{width:11px;height:11px;border-radius:50%;background:var(--g);flex-shrink:0;animation:blink 1.8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.qi{display:flex;align-items:center;gap:12px}
+.qi strong{font-size:14.5px;color:var(--g);display:block}
+.qi span{font-size:13px;color:#2d6b4a}
+.qstats{display:flex;gap:1.4rem}
+.qs strong{font-size:1.4rem;font-weight:700;color:var(--g);display:block}
+.qs span{font-size:11px;color:#2d6b4a}
+ 
+/* CHECKLIST / WIZARD */
+.wcard{background:#f8f9fc;border:1.5px solid var(--br);border-radius:14px;padding:1.8rem;max-width:760px;margin:0 auto}
+.wopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+.wopt{border:1.5px solid var(--br);border-radius:10px;padding:13px 10px;cursor:pointer;text-align:center;background:#fff;transition:all .2s}
+.wopt:hover,.wopt.sel{border-color:var(--g);background:var(--gl);border-width:2px}
+.wopt span{font-size:24px;display:block;margin-bottom:5px}
+.wopt strong{font-size:13px;color:var(--t);display:block}
+.wopt small{font-size:11px;color:var(--tm)}
+.cpanel{background:#fff;border:1.5px solid var(--g);border-radius:12px;padding:1.4rem;margin-top:1.1rem}
+.cpanel h4{font-size:14.5px;font-weight:700;color:var(--g);margin-bottom:.9rem}
+.ci{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #f0f2f7}
+.ci:last-child{border:none}
+.cb{width:20px;height:20px;min-width:20px;border-radius:5px;border:2px solid var(--br);cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .2s}
+.cb.done{background:var(--g);border-color:var(--g);color:#fff;font-size:11px}
+.ci-name{font-size:13.5px;font-weight:600}
+.ci-note{font-size:11.5px;color:var(--tm);margin-top:2px}
+ 
+/* CO-PILOT PROMO */
+.cpsec{background:linear-gradient(135deg,#0d47a1,#1565C0);padding:48px 0;color:#fff}
+.cpg{display:grid;grid-template-columns:1fr 360px;gap:3rem;align-items:center}
+.cpsec h2{font-size:1.8rem;font-weight:700;margin-bottom:.9rem;line-height:1.25}
+.cpsec p{font-size:14px;color:rgba(255,255,255,.82);margin-bottom:1.3rem}
+.cpf div{font-size:13.5px;color:rgba(255,255,255,.9);margin-bottom:8px}
+.cpf div::before{content:'✓ ';color:#7dffb3;font-weight:700}
+.cmock{background:#fff;border-radius:14px;overflow:hidden;color:var(--t)}
+.ch2{background:#f8f9fc;border-bottom:1px solid var(--br);padding:11px 14px;display:flex;align-items:center;gap:10px}
+.cav{width:30px;height:30px;border-radius:50%;background:var(--b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px}
+.ch2 strong{font-size:13px;display:block}.ch2 small{font-size:11px;color:var(--g)}
+.cbody2{padding:14px;display:flex;flex-direction:column;gap:9px;min-height:190px}
+.cm{max-width:88%;padding:9px 12px;border-radius:10px;font-size:13px;line-height:1.5}
+.cm.b{background:#f0f4ff;border-radius:4px 10px 10px 10px}
+.cm.u{background:var(--b);color:#fff;border-radius:10px 4px 10px 10px;align-self:flex-end}
+.cin2{border-top:1px solid var(--br);padding:9px 12px;display:flex;gap:8px}
+.cin2 input{flex:1;padding:8px 11px;border:1.5px solid var(--br);border-radius:7px;font-size:13px;font-family:'Inter',sans-serif}
+.cin2 button{background:var(--b);color:#fff;border:none;border-radius:7px;padding:8px 14px;cursor:pointer}
+ 
+/* FAQ */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:1.8rem}
+.fi{background:#fff;border:1px solid var(--br);border-radius:11px;overflow:hidden}
+.fq{padding:13px 16px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:background .2s}
+.fq:hover{background:#f5f6fa}.fq.open{color:var(--g)}
+.fch{font-size:15px;color:var(--tm);transition:transform .2s;flex-shrink:0}
+.fq.open .fch{transform:rotate(180deg);color:var(--g)}
+.fa{max-height:0;overflow:hidden;transition:max-height .3s}.fa.open{max-height:200px}
+.fa-in{padding:11px 16px 13px;font-size:13px;color:var(--tm);line-height:1.6;border-top:1px solid var(--br)}
+ 
+/* OFFICES */
+.ogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.oc{border:1px solid var(--br);border-radius:11px;padding:1.1rem;transition:all .2s}
+.oc:hover{border-color:var(--g);box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.oc strong{font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.oc p{font-size:12px;color:var(--tm);margin-bottom:6px}
+.oc small{font-size:12px;color:var(--g);font-weight:600}
+ 
+/* FOOTER */
+footer{background:#1a2e1f;color:rgba(255,255,255,.8);padding:36px 0 18px}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:1.8rem}
+.fc h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);margin-bottom:10px}
+.fc a{display:block;font-size:13px;color:rgba(255,255,255,.7);margin-bottom:6px;cursor:pointer;text-decoration:none}
+.fc a:hover{color:#fff}
+.fb{border-top:1px solid rgba(255,255,255,.1);padding-top:14px;font-size:12px;color:rgba(255,255,255,.35);display:flex;justify-content:space-between}
+ 
+/* FORM */
+.fsec{background:#f8f9fc;min-height:calc(100vh - 100px);padding:40px 0}
+.fcard{background:#fff;border-radius:14px;border:1px solid var(--br);max-width:700px;margin:0 auto;overflow:hidden}
+.fhead{background:var(--g);color:#fff;padding:1.3rem 1.7rem;display:flex;align-items:center;gap:12px}
+.fhead h2{font-size:1.05rem;font-weight:700}.fhead p{font-size:12.5px;opacity:.85;margin-top:2px}
+.pbar{padding:1.1rem 1.7rem;border-bottom:1px solid var(--br);display:flex;align-items:center}
+.ps{flex:1;display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--tm);padding:4px 5px}
+.ps.done{color:var(--g)}.ps.cur{color:var(--t)}
+.pc{width:22px;height:22px;border-radius:50%;background:#f0f1f5;color:var(--tm);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ps.done .pc{background:var(--g);color:#fff}.ps.cur .pc{background:var(--b);color:#fff}
+.pl{flex:0 0 18px;height:2px;background:var(--br)}.pl.done{background:var(--g)}
+.fbody{padding:1.7rem}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:13px}
+.fg2{margin-bottom:13px}
+.fg2 label{font-size:12.5px;font-weight:600;display:block;margin-bottom:4px}
+.fg2 input,.fg2 select{width:100%;padding:9px 12px;border:1.5px solid var(--br);border-radius:7px;font-size:14px;font-family:'Inter',sans-serif;color:var(--t)}
+.fg2 input:focus,.fg2 select:focus{outline:none;border-color:var(--g)}
+.fg2 .hint{font-size:11px;color:var(--tm);margin-top:3px}
+.save-bar{display:flex;align-items:center;gap:8px;background:#f0fff6;border:1px solid var(--gm);border-radius:7px;padding:8px 13px;font-size:12.5px;color:var(--g);margin-bottom:1.1rem}
+.ffoot{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.7rem;border-top:1px solid var(--br);background:#f8f9fc}
+.urow{border:1.5px solid var(--br);border-radius:9px;padding:13px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.urow strong{font-size:13.5px;font-weight:600;display:block}.urow small{font-size:12px;color:var(--tm)}
+.qbox{background:var(--gl);border:1.5px solid var(--g);border-radius:11px;padding:1.2rem;margin-bottom:1.1rem}
+.qbox h4{font-size:14.5px;font-weight:700;color:var(--g);margin-bottom:5px}
+.qtrack{height:8px;background:var(--gm);border-radius:4px;overflow:hidden;margin:10px 0}
+.qfill{width:35%;height:100%;background:var(--g);border-radius:4px}
+.warn{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:11px 13px;font-size:13px;color:#6d4c00;margin-top:10px}
+ 
+/* CONFIRM */
+.cfcard{max-width:520px;margin:0 auto;background:#fff;border-radius:14px;border:1px solid var(--br);overflow:hidden}
+.cfh{background:var(--g);color:#fff;padding:1.6rem;text-align:center}
+.cfh .ico{font-size:44px;margin-bottom:6px}
+.cfh h2{font-size:1.25rem;font-weight:700}.cfh p{font-size:13px;opacity:.85;margin-top:4px}
+.cfb{padding:1.5rem}
+.ref-box{background:#f0fff6;border:1.5px solid var(--g);border-radius:10px;padding:1rem;text-align:center;margin-bottom:1.1rem}
+.ref-box small{font-size:11.5px;color:var(--tm);display:block}
+.ref-box strong{font-size:1.5rem;font-weight:700;color:var(--g);letter-spacing:.08em}
+.ir{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0f2f7;font-size:13.5px}
+.ir:last-of-type{border:none}
+.ir .ic{font-size:17px;width:26px;flex-shrink:0}
+.ir small{color:var(--tm);font-size:11.5px;display:block}
+.nxt{background:var(--gl);border:1px solid var(--gm);border-radius:8px;padding:11px 13px;font-size:13px;color:#1a4a2e;margin:11px 0}
+ 
+/* CO-PILOT PAGE */
+.cppage{background:#f8f9fc;min-height:calc(100vh - 100px);padding:32px 0}
+.cpbox{background:#fff;border-radius:14px;border:1px solid var(--br);overflow:hidden;max-width:680px;margin:0 auto}
+.cph{background:linear-gradient(135deg,#1565C0,#1976D2);padding:1.1rem 1.4rem;color:#fff;display:flex;align-items:center;gap:12px}
+.cpav{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:19px}
+.cph strong{font-size:14.5px;display:block}.cph small{font-size:11.5px;opacity:.85}
+.cpqs-wrap{padding:10px 13px;border-bottom:1px solid var(--br);background:#f8f9fc}
+.cpqs-wrap p{font-size:11px;color:var(--tm);margin-bottom:6px}
+.cpqs{display:flex;flex-wrap:wrap;gap:6px}
+.cpq{font-size:12px;padding:5px 10px;border:1px solid var(--br);border-radius:15px;background:#fff;cursor:pointer;color:var(--t)}
+.cpq:hover{border-color:var(--b);color:var(--b)}
+.cpmsg{padding:14px;display:flex;flex-direction:column;gap:11px;min-height:300px;max-height:400px;overflow-y:auto}
+.msg{max-width:88%;padding:10px 13px;border-radius:10px;font-size:13.5px;line-height:1.55}
+.msg.bot{background:#f0f4ff;border-radius:4px 10px 10px 10px}
+.msg.usr{background:var(--b);color:#fff;border-radius:10px 4px 10px 10px;align-self:flex-end}
+.cpin-r{border-top:1px solid var(--br);padding:11px 13px;display:flex;gap:9px}
+.cpin{flex:1;padding:10px 13px;border:1.5px solid var(--br);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif}
+.cpin:focus{outline:none;border-color:var(--b)}
+.cpsnd{background:var(--b);color:#fff;border:none;border-radius:8px;padding:10px 18px;font-size:14px;cursor:pointer;font-weight:600;font-family:'Inter',sans-serif}
+ 
+/* TOAST + MODAL */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--g);color:#fff;padding:11px 18px;border-radius:9px;font-size:13.5px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.12);transform:translateY(70px);opacity:0;transition:all .3s;z-index:999}
+.toast.on{transform:translateY(0);opacity:1}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center}
+.mo.on{display:flex}
+.mb{background:#fff;border-radius:14px;padding:2rem;max-width:420px;width:90%;text-align:center}
+.mb h3{font-size:1.05rem;font-weight:700;margin-bottom:7px}
+.mb p{font-size:13.5px;color:var(--tm);margin-bottom:1.3rem}
+ 
+@media(max-width:860px){
+  .hero-g,.cpg{grid-template-columns:1fr}
+  .scard,.cmock{display:none}
+  .steps{grid-template-columns:1fr 1fr;gap:14px}.steps::before{display:none}
+  .agrid{grid-template-columns:1fr}
+  .fgrid,.ogrid{grid-template-columns:1fr}
+  .fg{grid-template-columns:1fr 1fr}
+  .fr{grid-template-columns:1fr}
+  .navl,.cpbtn{display:none}
+}
+@media(max-width:540px){
+  .steps{grid-template-columns:1fr}.fg{grid-template-columns:1fr}
+  .hero h1{font-size:1.75rem}
+}
+</style>
+</head>
+<body>
+ 
+<div class="toast" id="toast"></div>
+<div class="mo" id="lm">
+  <div class="mb">
+    <div style="font-size:30px;margin-bottom:7px">🌐</div>
+    <h3>Choose Language / زبان منتخب کریں</h3>
+    <p>Available in English and Urdu<br><span style="font-size:13px">یہ پورٹل اردو اور انگریزی میں دستیاب ہے</span></p>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn bp" onclick="closeLM('en')">🇬🇧 English</button>
+      <button class="btn bs" onclick="closeLM('ur')">🇵🇰 اردو</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- ======= HOME ======= -->
+<div id="pg-home" class="page on">
+<div class="topbar">
+  <div class="c">
+    <span>Official Italy Visa Application Centre — Pakistan · <strong>Intiana</strong></span>
+    <button class="lang-btn" onclick="document.getElementById('lm').classList.add('on')">🌐 Language / زبان</button>
+  </div>
+</div>
+<nav>
+  <div class="c nav-in">
+    <div class="logo" onclick="go('home')"><div class="logo-icon">🇮🇹</div><div><strong>Italy VAC Pakistan</strong><span>theitalyvisa.com</span></div></div>
+    <div class="navl">
+      <div class="nl act" onclick="go('home')">Home</div>
+      <div class="nl" onclick="go('apply')">Start Application</div>
+      <div class="nl" onclick="go('checklist')">Document Checklist</div>
+      <div class="nl" onclick="goSec('faq')">Help &amp; FAQ</div>
+      <div class="nl" onclick="goSec('offices')">Offices</div>
+    </div>
+    <button class="cpbtn" onclick="go('copilot')">🤖 Co-Pilot Mode</button>
+  </div>
+</nav>
+ 
+<section class="hero">
+  <div class="c">
+    <div class="hero-g">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;font-size:12px;padding:4px 12px;margin-bottom:1rem">🇵🇰 Serving Pakistan · 6 VAC Offices</div>
+        <h1>Apply for Your<br>Italian Visa — Fairly</h1>
+        <p>A queue-based system that gives everyone a fair chance. No bots. No agents needed. Available in Urdu.</p>
+        <div class="hbtns">
+          <button class="hbm" onclick="go('apply')">📋 Start My Application</button>
+          <button class="hbs" onclick="go('copilot')">🤖 Co-Pilot (اردو)</button>
+        </div>
+        <div class="perks">
+          <span>✓ No agent needed</span><span>✓ Progress auto-saved</span>
+          <span>✓ SMS &amp; email alerts</span><span>✓ Urdu interface</span>
+        </div>
+      </div>
+      <div class="scard">
+        <h3>📡 Track Your Application</h3>
+        <div class="ig">
+          <label>Reference Number</label>
+          <input type="text" id="ref" placeholder="e.g. LAH-2025-003847">
+          <label>Date of Birth</label>
+          <input type="date" id="dob">
+        </div>
+        <button class="btn bp" style="width:100%;justify-content:center" onclick="checkStatus()">Check Status →</button>
+        <p style="font-size:11px;color:var(--tm);text-align:center;margin-top:7px">No login required</p>
+        <div class="div2">or</div>
+        <button class="btn bs" style="width:100%;justify-content:center" onclick="go('apply')">Start a New Application</button>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section class="sec sec-w">
+  <div class="c">
+    <div class="sh"><span class="ey">How It Works</span><h2>Your Application in 5 Simple Steps</h2><p>Follow these steps to apply independently</p></div>
+    <div class="steps">
+      <div class="step"><div class="sc">📋<div class="sn">1</div></div><h4>Choose Visa Type</h4><p>3 questions to find your category</p></div>
+      <div class="step"><div class="sc">📄<div class="sn">2</div></div><h4>Prepare Documents</h4><p>Get your personalised checklist</p></div>
+      <div class="step"><div class="sc">🎟️<div class="sn">3</div></div><h4>Join the Queue</h4><p>Secure your fair position in line</p></div>
+      <div class="step"><div class="sc">💳<div class="sn">4</div></div><h4>Pay eChallan</h4><p>PKR 11,000 official fee only</p></div>
+      <div class="step"><div class="sc">🏛️<div class="sn">5</div></div><h4>Attend &amp; Submit</h4><p>Visit the VAC on your date</p></div>
+    </div>
+  </div>
+</section>
+ 
+<section class="sec" id="status">
+  <div class="c">
+    <div class="sh"><span class="ey">Get Started</span><h2>What Would You Like to Do?</h2></div>
+    <div class="qbanner">
+      <div class="qi"><div class="qdot"></div><div><strong>Queue System — Live &amp; Open</strong><span>Fair appointments, no bots. Your slot is guaranteed.</span></div></div>
+      <div class="qstats">
+        <div class="qs"><strong>6–10</strong><span>days avg. wait</span></div>
+        <div class="qs"><strong>PKR 11K</strong><span>official fee only</span></div>
+        <div class="qs"><strong>3 days</strong><span>to confirm slot</span></div>
+      </div>
+    </div>
+    <div class="agrid">
+      <div class="acard" onclick="go('apply')"><div class="ai aig">📋</div><span class="tag tg" style="margin-bottom:7px">Most Common</span><h3>Start My Application</h3><p>Join the fair queue. Get a personalised document checklist and secure your appointment.</p><div class="arr">Begin Application →</div></div>
+      <div class="acard" onclick="go('checklist')"><div class="ai aib">📄</div><span class="tag tb" style="margin-bottom:7px">Quick Access</span><h3>Document Visa Checklist</h3><p>Find out exactly which documents you need for your visa type — in 30 seconds.</p><div class="arr" style="color:var(--b)">View Checklist →</div></div>
+      <div class="acard" onclick="go('copilot')"><div class="ai aio">🤖</div><span class="tag tb" style="margin-bottom:7px">Available in اردو</span><h3>Co-Pilot Mode</h3><p>Step-by-step guided help in English or Urdu. No experience needed.</p><div class="arr" style="color:var(--b)">Launch Co-Pilot →</div></div>
+    </div>
+  </div>
+</section>
+ 
+<section class="cpsec">
+  <div class="c">
+    <div class="cpg">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;font-size:12px;padding:4px 12px;margin-bottom:.9rem">🤖 Guided Help · 24/7</div>
+        <h2>Need Help Applying?<br>Co-Pilot Has You Covered</h2>
+        <p>Guides you through every step in simple language — English or Urdu. Perfect for first-time applicants or remote help.</p>
+        <div class="cpf">
+          <div>Fully available in Urdu (اردو)</div>
+          <div>Explains every field clearly</div>
+          <div>Saves progress automatically</div>
+          <div>Works across multiple sessions</div>
+        </div>
+        <button class="btn" style="background:#fff;color:var(--b);margin-top:1.3rem;font-weight:700" onclick="go('copilot')">Launch Co-Pilot →</button>
+      </div>
+      <div class="cmock">
+        <div class="ch2"><div class="cav">🤖</div><div><strong>Italy VAC Co-Pilot</strong><small>● Online — اردو available</small></div></div>
+        <div class="cbody2">
+          <div class="cm b">Hello! I'm here to help you apply step by step. Which language do you prefer?</div>
+          <div class="cm u">اردو میں مدد کریں</div>
+          <div class="cm b" style="font-family:serif;direction:rtl;line-height:1.9">بالکل! آپ کس ویزے کے لیے درخواست دینا چاہتے ہیں؟</div>
+          <div class="cm u" style="font-family:serif;direction:rtl">فیملی ری یونین ویزا</div>
+        </div>
+        <div class="cin2"><input placeholder="Type your question..." onclick="go('copilot')"><button onclick="go('copilot')">→</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section class="sec" id="faq">
+  <div class="c">
+    <div class="sh"><span class="ey">Help Centre</span><h2>Frequently Asked Questions</h2><p>Most common questions about Italian visa applications</p></div>
+    <div class="fgrid" id="faqGrid"></div>
+  </div>
+</section>
+ 
+<section class="sec sec-w" id="offices">
+  <div class="c">
+    <div class="sh"><span class="ey">Our Locations</span><h2>VAC Offices Across Pakistan</h2><p>Visit any of our 6 offices to submit your application</p></div>
+    <div class="ogrid">
+      <div class="oc"><strong>📍 Lahore <span class="tag tg" style="font-size:10px">Main</span></strong><p>55-E/1 Gulberg III, Main Boulevard</p><small>Mon–Fri · 8:00am – 4:00pm</small></div>
+      <div class="oc"><strong>📍 Islamabad</strong><p>House 12, Street 22, F-7/2</p><small>Mon–Fri · 8:00am – 4:00pm</small></div>
+      <div class="oc"><strong>📍 Karachi</strong><p>2nd Floor, Clifton Centre</p><small>Mon–Fri · 8:00am – 4:00pm</small></div>
+      <div class="oc"><strong>📍 Faisalabad</strong><p>Canal Road, Near D-Ground</p><small>Mon–Thu · 9:00am – 3:00pm</small></div>
+      <div class="oc"><strong>📍 Multan</strong><p>Gulgasht Colony, Boson Road</p><small>Mon–Thu · 9:00am – 3:00pm</small></div>
+      <div class="oc"><strong>📍 Quetta</strong><p>Jinnah Road, Blue Area</p><small>Mon–Thu · 9:00am – 3:00pm</small></div>
+    </div>
+  </div>
+</section>
+ 
+<footer>
+  <div class="c">
+    <div class="fg">
+      <div><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><div style="width:32px;height:32px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px">🇮🇹</div><span style="font-size:14px;font-weight:700;color:#fff">Italy VAC Pakistan</span></div><p style="font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.6">Official visa centre operated by Intiana under authorisation from the Embassy of Italy, Islamabad.</p></div>
+      <div class="fc"><h4>Apply</h4><a onclick="go('apply')">Start Application</a><a onclick="go('checklist')">Document Checklist</a><a>eChallan Guide</a></div>
+      <div class="fc"><h4>Track &amp; Help</h4><a onclick="goSec('status')">Track Application</a><a onclick="goSec('faq')">Help &amp; FAQ</a><a onclick="go('copilot')">Co-Pilot Mode</a></div>
+      <div class="fc"><h4>Offices</h4><a onclick="goSec('offices')">Lahore</a><a onclick="goSec('offices')">Islamabad</a><a onclick="goSec('offices')">All Offices</a></div>
+    </div>
+    <div class="fb"><span>© 2025 Intiana · Italy VAC Pakistan · theitalyvisa.com</span><span>Privacy · Terms</span></div>
+  </div>
+</footer>
+</div><!-- /home -->
+ 
+<!-- ======= CHECKLIST PAGE ======= -->
+<div id="pg-checklist" class="page">
+<div class="topbar"><div class="c"><span>🇮🇹 Italy VAC Pakistan — Document Visa Checklist</span><button class="lang-btn" onclick="go('home')">← Back to Home</button></div></div>
+<nav>
+  <div class="c nav-in">
+    <div class="logo" onclick="go('home')"><div class="logo-icon">🇮🇹</div><div><strong>Italy VAC Pakistan</strong><span>Document Checklist</span></div></div>
+    <div class="navl">
+      <div class="nl" onclick="go('home')">Home</div>
+      <div class="nl" onclick="go('apply')">Start Application</div>
+      <div class="nl act">Document Checklist</div>
+      <div class="nl" onclick="goSec('faq')">Help &amp; FAQ</div>
+    </div>
+    <button class="cpbtn" onclick="go('copilot')">🤖 Co-Pilot Mode</button>
+  </div>
+</nav>
+<section class="sec">
+  <div class="c">
+    <div class="sh"><span class="ey">Document Visa Checklist</span><h2>Find Your Document Visa Checklist</h2><p>Select your visa type to get a personalised, interactive document list</p></div>
+    <div class="wcard">
+      <div style="font-size:15px;font-weight:700;margin-bottom:1.2rem;display:flex;align-items:center;gap:9px">🧭 Select Your Visa Type <span class="tag tg">30 seconds</span></div>
+      <div class="wopts" id="wopts">
+        <div class="wopt" onclick="selVisa('study',this)"><span>🎓</span><strong>Study</strong><small>University / Course</small></div>
+        <div class="wopt" onclick="selVisa('tourism',this)"><span>✈️</span><strong>Tourism / Visit</strong><small>Holiday, short stay</small></div>
+        <div class="wopt" onclick="selVisa('family',this)"><span>👨‍👩‍👧</span><strong>Family Reunion</strong><small>Join family in Italy</small></div>
+        <div class="wopt" onclick="selVisa('work',this)"><span>💼</span><strong>Work</strong><small>Employment</small></div>
+      </div>
+      <div class="cpanel" id="clPanel" style="display:none">
+        <h4 id="clTitle">📄 Your Checklist</h4>
+        <div id="clItems"></div>
+      </div>
+      <div id="clBtns" style="display:none;gap:10px;flex-wrap:wrap;margin-top:13px">
+        <button class="btn bp" onclick="go('apply')">Continue to Application →</button>
+        <button class="btn bg" onclick="resetCL()">← Start Over</button>
+        <button class="btn bg" onclick="toast('📥 Checklist saved!')">📥 Save as PDF</button>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /checklist -->
+ 
+<!-- ======= APPLY PAGE ======= -->
+<div id="pg-apply" class="page">
+<div class="topbar" style="background:var(--g)"><div class="c"><span>🇮🇹 Italy VAC Pakistan — Visa Application</span><button class="lang-btn" onclick="go('home')">← Back to Home</button></div></div>
+<nav>
+  <div class="c nav-in">
+    <div class="logo" onclick="go('home')"><div class="logo-icon">🇮🇹</div><div><strong>Italy VAC Pakistan</strong><span>Application Form</span></div></div>
+    <button class="cpbtn" onclick="go('copilot')">🤖 Need Help? Co-Pilot</button>
+  </div>
+</nav>
+<div class="fsec">
+  <div class="c">
+    <div class="fcard">
+      <div class="fhead"><div style="font-size:26px">📋</div><div><h2>Visa Application — Join the Queue</h2><p>Progress is saved automatically after every field</p></div></div>
+      <div class="pbar" id="pbar">
+        <div class="ps cur" id="fp1"><div class="pc">1</div><span style="display:none"> Visa</span></div>
+        <div class="pl" id="pl1"></div>
+        <div class="ps" id="fp2"><div class="pc">2</div><span style="display:none"> Info</span></div>
+        <div class="pl" id="pl2"></div>
+        <div class="ps" id="fp3"><div class="pc">3</div><span style="display:none"> Docs</span></div>
+        <div class="pl" id="pl3"></div>
+        <div class="ps" id="fp4"><div class="pc">4</div><span style="display:none"> Queue</span></div>
+        <div class="pl" id="pl4"></div>
+        <div class="ps" id="fp5"><div class="pc">5</div><span style="display:none"> Done</span></div>
+      </div>
+      <div class="fbody">
+        <!-- STEP 1 -->
+        <div id="fs1">
+          <p style="font-size:14.5px;font-weight:600;margin-bottom:.9rem">What is the purpose of your visit to Italy?</p>
+          <div class="wopts" id="vtype" style="margin-bottom:1.2rem">
+            <div class="wopt" onclick="pickV('study',this)"><span>🎓</span><strong>Study</strong><small>University / Course</small></div>
+            <div class="wopt" onclick="pickV('tourism',this)"><span>✈️</span><strong>Tourism</strong><small>Holiday</small></div>
+            <div class="wopt" onclick="pickV('family',this)"><span>👨‍👩‍👧</span><strong>Family Reunion</strong><small>Join family</small></div>
+            <div class="wopt" onclick="pickV('work',this)"><span>💼</span><strong>Work</strong><small>Employment</small></div>
+          </div>
+          <p style="font-size:14.5px;font-weight:600;margin-bottom:.7rem">Which is your nearest VAC city?</p>
+          <div class="wopts" id="vCity">
+            <div class="wopt sel" onclick="pickC(this,'Lahore')"><span>🏙️</span><strong>Lahore</strong></div>
+            <div class="wopt" onclick="pickC(this,'Islamabad')"><span>🏛️</span><strong>Islamabad</strong></div>
+            <div class="wopt" onclick="pickC(this,'Karachi')"><span>🌊</span><strong>Karachi</strong></div>
+            <div class="wopt" onclick="pickC(this,'Faisalabad')"><span>🏭</span><strong>Faisalabad</strong></div>
+          </div>
+        </div>
+        <!-- STEP 2 -->
+        <div id="fs2" style="display:none">
+          <div class="save-bar">✅ Progress automatically saved — you can resume anytime</div>
+          <div class="fr">
+            <div class="fg2"><label>First Name (as in passport)</label><input type="text" placeholder="Muhammad Talha" oninput="autoSave()"></div>
+            <div class="fg2"><label>Last Name</label><input type="text" placeholder="Sohail Chattha" oninput="autoSave()"></div>
+          </div>
+          <div class="fr">
+            <div class="fg2"><label>Passport Number</label><input type="text" placeholder="AA1234567" oninput="autoSave()"></div>
+            <div class="fg2"><label>Date of Birth</label><input type="date" oninput="autoSave()"></div>
+          </div>
+          <div class="fr">
+            <div class="fg2"><label>Mobile (SMS alerts)</label><input type="tel" placeholder="+92 300 000 0000" oninput="autoSave()"><div class="hint">Appointment notification sent here</div></div>
+            <div class="fg2"><label>Email Address</label><input type="email" placeholder="your@email.com" oninput="autoSave()"><div class="hint">Confirmation sent here</div></div>
+          </div>
+        </div>
+        <!-- STEP 3 -->
+        <div id="fs3" style="display:none">
+          <div class="save-bar">✅ Progress saved — upload your documents</div>
+          <div class="urow"><div><strong>Admission Letter (PDF)</strong><small>Required for student visa queue</small></div><label style="cursor:pointer"><input type="file" style="display:none" onchange="uploaded(this,'ub1')"><span class="btn bs" style="font-size:12.5px;padding:7px 13px" id="ub1">📎 Upload</span></label></div>
+          <div class="urow"><div><strong>Passport Bio-Page</strong><small>Clear scan of photo page</small></div><label style="cursor:pointer"><input type="file" style="display:none" onchange="uploaded(this,'ub2')"><span class="btn bs" style="font-size:12.5px;padding:7px 13px" id="ub2">📎 Upload</span></label></div>
+          <p style="font-size:12px;color:var(--tm);border:1px dashed var(--br);border-radius:8px;padding:11px;text-align:center;margin-top:4px">Other documents can be brought physically to your appointment</p>
+        </div>
+        <!-- STEP 4 -->
+        <div id="fs4" style="display:none">
+          <div class="qbox">
+            <h4>📍 Appointment Queue — <span id="vcity">Lahore</span> VAC</h4>
+            <p style="font-size:13px;color:#1a4a2e">There are currently <strong>31 people</strong> ahead of you.</p>
+            <div class="qtrack"><div class="qfill"></div></div>
+            <p style="font-size:12.5px;color:#2d6b4a">Estimated wait: <strong>6–10 days</strong> · You'll receive an SMS when your slot is ready. You'll then have 3 days to confirm.</p>
+          </div>
+          <div class="fg2"><label>Confirm Mobile for SMS</label><input type="tel" placeholder="+92 300 000 0000"></div>
+          <div class="warn">⚠️ <strong>Important:</strong> By joining the queue you confirm all documents are accurate. We will contact you — no need to revisit this site.</div>
+        </div>
+      </div>
+      <div class="ffoot">
+        <button class="btn bg" id="fback" onclick="fBack()" style="display:none">← Back</button>
+        <span style="font-size:12px;color:var(--tm)" id="fstep">Step 1 of 5</span>
+        <button class="btn bp" id="fnext" onclick="fNext()">Continue →</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /apply -->
+ 
+<!-- ======= CONFIRM PAGE ======= -->
+<div id="pg-confirm" class="page">
+<div class="topbar" style="background:var(--g)"><div class="c"><span>🇮🇹 Italy VAC Pakistan</span><button class="lang-btn" onclick="go('home')">← Back to Home</button></div></div>
+<nav><div class="c nav-in"><div class="logo" onclick="go('home')"><div class="logo-icon">🇮🇹</div><div><strong>Italy VAC Pakistan</strong><span>Queue Confirmed</span></div></div></div></nav>
+<div class="fsec">
+  <div class="c">
+    <div class="cfcard">
+      <div class="cfh"><div class="ico">🎉</div><h2>You're in the Queue!</h2><p>We'll notify you by SMS &amp; email when your slot is ready.</p></div>
+      <div class="cfb">
+        <div class="ref-box"><small>Your Reference Number</small><strong>LAH-2025-003847</strong></div>
+        <div class="ir"><div class="ic">📍</div><div><small>VAC Location</small><strong id="cCity">Lahore VAC</strong></div></div>
+        <div class="ir"><div class="ic">🎟️</div><div><small>Queue Position</small><strong style="color:var(--g)">32nd in line</strong></div></div>
+        <div class="ir"><div class="ic">⏱️</div><div><small>Estimated Wait</small><strong>6 – 10 days</strong></div></div>
+        <div class="ir"><div class="ic">📋</div><div><small>Visa Type</small><strong id="cVisa">Type D — Student Visa</strong></div></div>
+        <div class="nxt"><strong>What happens next?</strong><br>When your slot is ready you'll get an SMS. You'll have 3 days to confirm your preferred time and date.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn bp" onclick="go('home')">← Back to Home</button>
+          <button class="btn bs" onclick="toast('📄 Checklist emailed!')">📄 View Checklist</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /confirm -->
+ 
+<!-- ======= CO-PILOT PAGE ======= -->
+<div id="pg-copilot" class="page">
+<div class="topbar" style="background:var(--b)"><div class="c"><span>🤖 Italy VAC Co-Pilot — Guided Application Assistant</span><button class="lang-btn" onclick="go('home')">← Back to Home</button></div></div>
+<nav>
+  <div class="c nav-in">
+    <div class="logo" onclick="go('home')"><div class="logo-icon" style="background:var(--b)">🤖</div><div><strong>Co-Pilot Assistant</strong><span>Guided Help · اردو available</span></div></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn bg" onclick="cpLang('en')" id="cl-en" style="font-size:12.5px">🇬🇧 English</button>
+      <button class="btn" onclick="cpLang('ur')" id="cl-ur" style="font-size:12.5px;background:var(--bl);color:var(--b);border:1.5px solid #b3d1f7">🇵🇰 اردو</button>
+    </div>
+  </div>
+</nav>
+<div class="cppage">
+  <div class="c">
+    <div class="cpbox">
+      <div class="cph"><div class="cpav">🤖</div><div><strong>Italy VAC Co-Pilot</strong><small>● Online — Answers in English &amp; اردو</small></div></div>
+      <div class="cpqs-wrap">
+        <p>Common questions — click to ask:</p>
+        <div class="cpqs" id="cpqs">
+          <button class="cpq" onclick="sendCP(this.textContent)">How does the queue work?</button>
+          <button class="cpq" onclick="sendCP(this.textContent)">What documents do I need?</button>
+          <button class="cpq" onclick="sendCP(this.textContent)">What is the fee?</button>
+          <button class="cpq" onclick="sendCP(this.textContent)">How long will it take?</button>
+          <button class="cpq" onclick="sendCP(this.textContent)">Can I use Urdu?</button>
+        </div>
+      </div>
+      <div class="cpmsg" id="cpmsgs">
+        <div class="msg bot">👋 Hello! I'm the Italy VAC Co-Pilot. I can help you apply step by step in English or Urdu.<br><br>Click a question above or type below to get started!</div>
+      </div>
+      <div class="cpin-r">
+        <input class="cpin" id="cpIn" placeholder="Type your question..." onkeydown="if(event.key==='Enter')sendCP()">
+        <button class="cpsnd" onclick="sendCP()">Send</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:14px">
+      <button class="btn bp" onclick="go('apply')">Ready? Start Application →</button>
+    </div>
+  </div>
+</div>
+</div><!-- /copilot -->
+ 
+<script>
+// PAGE NAV
+function go(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('on'));
+  const pg=document.getElementById('pg-'+p);
+  if(pg){pg.classList.add('on');window.scrollTo(0,0);}
+  if(p==='apply') resetForm();
+}
+function goSec(id){
+  go('home');
+  setTimeout(()=>{const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});},120);
+}
+ 
+// TOAST
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg||'✅ Progress saved';
+  t.classList.add('on');
+  clearTimeout(t._t);
+  t._t=setTimeout(()=>t.classList.remove('on'),3000);
+}
+ 
+// LANGUAGE MODAL
+function closeLM(l){
+  document.getElementById('lm').classList.remove('on');
+  if(l==='ur') toast('اردو میں تبدیل ہو گیا ✓');
+}
+ 
+// STATUS
+function checkStatus(){
+  const r=document.getElementById('ref').value.trim();
+  if(!r){toast('Please enter your reference number');return;}
+  toast('Status: Documents under review — decision expected in 5 days');
+}
+ 
+// CHECKLIST PAGE DATA
+const CL={
+  study:{t:'🎓 Type D — Student Visa Documents',i:[
+    {n:'Valid Passport',d:'Min 6 months validity beyond stay'},
+    {n:'University Admission Letter',d:'Original letter from Italian university'},
+    {n:'Visa Application Form',d:'Completed and signed'},
+    {n:'Passport Photos (2)',d:'35×45mm, white background'},
+    {n:'Proof of Financial Means',d:'Bank statement (last 3 months) or scholarship'},
+    {n:'Health Insurance',d:'Min €30,000 coverage for Italy'},
+    {n:'Accommodation Proof',d:'University housing or rental agreement'},
+    {n:'eChallan Payment Receipt',d:'PKR 11,000 official fee'},
+  ]},
+  tourism:{t:'✈️ Type C — Tourist / Schengen Visa',i:[
+    {n:'Valid Passport',d:'Min 3 months beyond return date'},
+    {n:'Hotel Booking / Invitation Letter',d:'For full duration of stay'},
+    {n:'Return Flight Tickets',d:'Confirmed bookings'},
+    {n:'Travel Insurance',d:'Min €30,000 Schengen coverage'},
+    {n:'Bank Statement',d:'Last 3 months, sufficient funds'},
+    {n:'Proof of Employment / Enrollment',d:'NOC from employer or university'},
+    {n:'eChallan Payment Receipt',d:'PKR 11,000 official fee'},
+  ]},
+  family:{t:'👨‍👩‍👧 Family Reunion Visa Documents',i:[
+    {n:'Valid Passports (all members)',d:'All applicants included'},
+    {n:"Sponsor's Residence Permit",d:'Copy of family member permit in Italy'},
+    {n:'Marriage / Birth Certificates',d:'Translated and apostilled'},
+    {n:"Sponsor's Employment Proof",d:'Payslips and contract'},
+    {n:'Housing Suitability Certificate',d:'Nulla Osta from Italian municipality'},
+    {n:'eChallan Receipt',d:'PKR 11,000 per person'},
+  ]},
+  work:{t:'💼 Work Visa Documents',i:[
+    {n:'Valid Passport',d:'Min 6 months validity'},
+    {n:'Work Permit (Nulla Osta)',d:'Issued by Italian employer'},
+    {n:'Employment Contract',d:'Signed by employer'},
+    {n:'Qualification Documents',d:'Degree / professional certificates'},
+    {n:'eChallan Receipt',d:'PKR 11,000 official fee'},
+  ]}
+};
+function selVisa(type,el){
+  document.querySelectorAll('#wopts .wopt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  const d=CL[type];
+  document.getElementById('clTitle').textContent=d.t;
+  const c=document.getElementById('clItems');c.innerHTML='';
+  d.i.forEach((it,i)=>{
+    c.innerHTML+=`<div class="ci"><div class="cb" id="cb${i}" onclick="tCB(${i})"></div><div><div class="ci-name">${it.n}</div><div class="ci-note">${it.d}</div></div></div>`;
+  });
+  document.getElementById('clPanel').style.display='block';
+  document.getElementById('clBtns').style.display='flex';
+}
+function tCB(i){const b=document.getElementById('cb'+i);b.classList.toggle('done');b.textContent=b.classList.contains('done')?'✓':'';}
+function resetCL(){
+  document.querySelectorAll('#wopts .wopt').forEach(o=>o.classList.remove('sel'));
+  document.getElementById('clPanel').style.display='none';
+  document.getElementById('clBtns').style.display='none';
+}
+ 
+// FORM
+let fStep=1, fVisa='', fCity='Lahore';
+const vLabels={study:'Type D — Student Visa',tourism:'Type C — Tourist Visa',family:'Family Reunion Visa',work:'Work Visa'};
+ 
+function resetForm(){fStep=1;fVisa='';fCity='Lahore';setStep(1);}
+function pickV(v,el){
+  document.querySelectorAll('#vtype .wopt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');fVisa=v;
+}
+function pickC(el,c){
+  document.querySelectorAll('#vCity .wopt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');fCity=c;
+  document.getElementById('vcity').textContent=c;
+}
+function setStep(n){
+  for(let i=1;i<=4;i++){const s=document.getElementById('fs'+i);if(s)s.style.display=i===n?'block':'none';}
+  for(let i=1;i<=5;i++){
+    const p=document.getElementById('fp'+i);
+    p.classList.remove('done','cur');
+    p.querySelector('.pc').textContent=i;
+  }
+  for(let i=1;i<n;i++){
+    document.getElementById('fp'+i).classList.add('done');
+    document.getElementById('fp'+i).querySelector('.pc').textContent='✓';
+  }
+  document.getElementById('fp'+n).classList.add('cur');
+  for(let i=1;i<=4;i++){const l=document.getElementById('pl'+i);if(l){l.classList.remove('done');if(i<n)l.classList.add('done');}}
+  document.getElementById('fstep').textContent='Step '+n+' of 5';
+  document.getElementById('fback').style.display=n>1?'inline-flex':'none';
+  document.getElementById('fnext').textContent=n===4?'Join Queue →':'Continue →';
+  fStep=n;
+}
+function fNext(){
+  if(fStep===1&&!fVisa){toast('Please select a visa type first');return;}
+  if(fStep<4)setStep(fStep+1);
+  else{
+    document.getElementById('cCity').textContent=fCity+' VAC';
+    document.getElementById('cVisa').textContent=vLabels[fVisa]||fVisa;
+    go('confirm');
+  }
+}
+function fBack(){if(fStep>1)setStep(fStep-1);}
+function autoSave(){clearTimeout(window._st);window._st=setTimeout(()=>toast('✅ Progress saved'),1200);}
+function uploaded(inp,id){
+  if(inp.files&&inp.files[0]){
+    const b=document.getElementById(id);
+    b.textContent='✅ '+inp.files[0].name.slice(0,16)+'...';
+    b.style.cssText='display:inline-flex;align-items:center;gap:7px;padding:7px 13px;background:var(--gl);color:var(--g);border:1.5px solid var(--g);border-radius:8px;font-size:12.5px;font-weight:600;font-family:Inter,sans-serif';
+    toast('✅ File uploaded and saved');
+  }
+}
+ 
+// CO-PILOT
+let cpL='en';
+const cpR={
+  en:{
+    queue:'The queue is first-come, first-served. You submit once and receive a position number. When your turn comes (6–10 days), you get an SMS and email. You then have 3 days to confirm your slot. No bot can game this system.',
+    docs:"It depends on your visa type. For a student visa: passport (6+ months), admission letter, proof of funds, health insurance (€30,000 min), accommodation proof, and the eChallan receipt. Use the Document Checklist page for a full personalised list.",
+    fee:'The official VAC service fee is PKR 11,000, paid via eChallan. You do not need to pay any agent. Any amount above 11,000 is unofficial.',
+    time:'Queue wait is typically 6–10 days. After your appointment, the consulate takes 15–30 working days to decide. You can track your status using just your reference number.',
+    urdu:'Yes! Click اردو at the top of any page. All labels, instructions, and error messages switch to Urdu. Co-Pilot also responds fully in Urdu.',
+    def:"I can help with that. Could you tell me which visa type you're applying for — student, tourist, family reunion, or work?"
+  },
+  ur:{
+    queue:'قطار پہلے آئیں پہلے پائیں کی بنیاد پر کام کرتی ہے۔ 6 سے 10 دن میں SMS آئے گی اور آپ کے پاس 3 دن ہوں گے وقت منتخب کرنے کے لیے۔',
+    docs:'طالب علم ویزے کے لیے: پاسپورٹ، داخلہ خط، مالی ثبوت، انشورنس، رہائش کا ثبوت، اور ای چالان کی رسید چاہیے۔',
+    fee:'سرکاری VAC فیس 11,000 روپے ہے جو ای چالان سے ادا ہوتی ہے۔ کسی ایجنٹ کو پیسے دینے کی ضرورت نہیں۔',
+    time:'قطار میں 6 سے 10 دن لگتے ہیں۔ اپوائنٹمنٹ کے بعد ویزے پر 15 سے 30 کام کے دن لگتے ہیں۔',
+    urdu:'جی ہاں! اوپر اردو بٹن دبائیں اور پوری ویب سائٹ اردو میں آ جائے گی۔',
+    def:'میں آپ کی مدد کر سکتا ہوں۔ براہ کرم بتائیں کہ آپ کون سے ویزے کے لیے درخواست دے رہے ہیں؟'
+  }
+};
+function cpLang(l){
+  cpL=l;
+  const inp=document.getElementById('cpIn');
+  inp.placeholder=l==='ur'?'اپنا سوال لکھیں...':'Type your question...';
+  inp.style.direction=l==='ur'?'rtl':'ltr';
+  document.getElementById('cl-ur').style.cssText=l==='ur'?'font-size:12.5px;background:var(--bl);color:var(--b);border:1.5px solid #b3d1f7;padding:10px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif':'font-size:12.5px;background:transparent;color:var(--tm);border:1px solid var(--br);padding:10px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif';
+  document.getElementById('cpqs').innerHTML=l==='ur'?`
+    <button class="cpq" onclick="sendCP(this.textContent)">قطار کیسے کام کرتی ہے؟</button>
+    <button class="cpq" onclick="sendCP(this.textContent)">کون سے کاغذات چاہئیں؟</button>
+    <button class="cpq" onclick="sendCP(this.textContent)">فیس کتنی ہے؟</button>
+    <button class="cpq" onclick="sendCP(this.textContent)">کتنا وقت لگے گا؟</button>`:`
+    <button class="cpq" onclick="sendCP(this.textContent)">How does the queue work?</button>
+    <button class="cpq" onclick="sendCP(this.textContent)">What documents do I need?</button>
+    <button class="cpq" onclick="sendCP(this.textContent)">What is the fee?</button>
+    <button class="cpq" onclick="sendCP(this.textContent)">How long will it take?</button>
+    <button class="cpq" onclick="sendCP(this.textContent)">Can I use Urdu?</button>`;
+}
+function sendCP(txt){
+  const inp=document.getElementById('cpIn');
+  const msg=(txt||inp.value).trim();
+  if(!msg)return;
+  const box=document.getElementById('cpmsgs');
+  const ud=document.createElement('div');
+  ud.className='msg usr';ud.textContent=msg;
+  if(cpL==='ur'){ud.style.direction='rtl';ud.style.fontFamily='serif';}
+  box.appendChild(ud);
+  inp.value='';
+  box.scrollTop=box.scrollHeight;
+  setTimeout(()=>{
+    const k=msg.toLowerCase();
+    const r=cpR[cpL];
+    let resp=r.def;
+    if(k.includes('queue')||k.includes('قطار'))resp=r.queue;
+    else if(k.includes('doc')||k.includes('کاغذ'))resp=r.docs;
+    else if(k.includes('fee')||k.includes('cost')||k.includes('فیس')||k.includes('price'))resp=r.fee;
+    else if(k.includes('long')||k.includes('time')||k.includes('وقت'))resp=r.time;
+    else if(k.includes('urdu')||k.includes('اردو')||k.includes('lang'))resp=r.urdu;
+    const bd=document.createElement('div');
+    bd.className='msg bot';bd.textContent=resp;
+    if(cpL==='ur'){bd.style.direction='rtl';bd.style.fontFamily='serif';bd.style.lineHeight='2';}
+    box.appendChild(bd);
+    box.scrollTop=box.scrollHeight;
+  },550);
+}
+ 
+// FAQ
+const FAQS=[
+  {q:'How does the queue system work?',a:"When you submit your application, you're placed in a first-come, first-served queue. You'll receive an SMS and email when your slot is ready — usually within 6–10 days. You then have 3 days to confirm. No need to monitor the website."},
+  {q:'What documents do I need for a student visa?',a:'For a Type D student visa: valid passport (6+ months), university admission letter, proof of financial means, health insurance (min €30,000), accommodation proof in Italy, completed visa form, passport photos, and your eChallan receipt.'},
+  {q:'What is the official visa fee?',a:'The official VAC service fee is PKR 11,000. Pay via eChallan online or at any designated bank. You do not need to pay any agent. Keep your receipt — it is required at your appointment.'},
+  {q:'What if my internet drops mid-form?',a:'Your progress is saved automatically after every field. If interrupted, resume exactly where you left off on any device. Just return and log in with your phone number.'},
+  {q:'Can I use this website in Urdu?',a:'Yes. Click Language / زبان at the top of any page. All labels, instructions, and error messages switch to Urdu. Co-Pilot mode also works fully in Urdu.'},
+  {q:'How will I know when my visa is approved?',a:"You'll receive an SMS and email at each stage. Your status is shown in plain language on the Track Status page — e.g. 'Documents under review' or 'Decision made — passport ready for collection'."},
+];
+(function buildFAQ(){
+  const g=document.getElementById('faqGrid');
+  FAQS.forEach(f=>{
+    g.innerHTML+=`<div class="fi"><div class="fq" onclick="tFAQ(this)">${f.q}<span class="fch">▾</span></div><div class="fa"><div class="fa-in">${f.a}</div></div></div>`;
+  });
+})();
+function tFAQ(el){
+  const a=el.nextElementSibling;const open=el.classList.contains('open');
+  document.querySelectorAll('.fq.open').forEach(q=>{q.classList.remove('open');q.nextElementSibling.classList.remove('open');});
+  if(!open){el.classList.add('open');a.classList.add('open');}
+}
+</script>
+</body>
+</html>
