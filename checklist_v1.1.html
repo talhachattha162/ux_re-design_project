@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italy VAC — Document Checklist Generator v1.1</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===================== DESIGN v1.1 CHANGES:
+   1. Plain language rewrites for all checklist items
+   2. Progress indicator on checklist (items ticked / total)
+   3. Mobile-optimised layout (single column, sticky CTA)
+   4. Contextual help integration per document item
+   5. "Email this checklist" feature
+   ===================================== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;font-size:15px;line-height:1.6;color:#1a1a2e;background:#f0f4f1}
+:root{
+  --g:#006B3F;--gl:#e8f5ee;--gm:#b2d8c2;
+  --b:#1565C0;--bl:#e3f0ff;
+  --t:#1a1a2e;--tm:#5c6078;--br:#dde1ec;
+  --ok:#2e7d32;--okbg:#f0fff6;
+}
+.c{max-width:860px;margin:0 auto;padding:0 1.5rem}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;border:none;font-family:'Nunito',sans-serif;transition:all .2s}
+.bp{background:var(--g);color:#fff}.bp:hover{background:#004f2e;transform:translateY(-1px)}
+.bs{background:#fff;color:var(--g);border:1.5px solid var(--g)}.bs:hover{background:var(--gl)}
+.bg{background:transparent;color:var(--tm);border:1px solid var(--br)}.bg:hover{background:#f0f1f5}
+
+/* TOPBAR + NAV */
+.topbar{background:var(--g);color:rgba(255,255,255,.9);font-size:12.5px;padding:6px 0}
+.topbar .c{display:flex;justify-content:space-between;align-items:center}
+.lang-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:4px 12px;border-radius:20px;font-size:12px;cursor:pointer}
+nav{background:#fff;border-bottom:1px solid var(--br);position:sticky;top:0;z-index:100;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:58px}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-icon{width:34px;height:34px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.logo strong{font-size:13px;display:block}.logo span{font-size:11px;color:var(--tm)}
+.navl{display:flex;gap:2px}
+.nl{color:var(--tm);font-size:13px;font-weight:600;padding:7px 11px;border-radius:6px;cursor:pointer;transition:all .2s}
+.nl:hover,.nl.act{color:var(--g);background:var(--gl)}
+.cpbtn{display:flex;align-items:center;gap:6px;background:var(--bl);color:var(--b);border:1.5px solid #b3d1f7;padding:7px 13px;border-radius:7px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif}
+
+/* VERSION BADGE */
+.vbadge{background:#1a1a2e;color:#fff;font-size:11px;font-weight:800;padding:5px 14px;border-radius:20px;display:inline-block;letter-spacing:.03em}
+
+/* HERO STRIP */
+.hero-strip{background:linear-gradient(135deg,#004f2e,#006B3F);color:#fff;padding:32px 0;text-align:center}
+.hero-strip h1{font-size:1.7rem;font-weight:800;margin-bottom:6px}
+.hero-strip p{font-size:14px;color:rgba(255,255,255,.82);max-width:460px;margin:0 auto}
+
+/* MAIN SECTION */
+.sec{padding:40px 0}
+
+/* VISA SELECTOR CARD */
+.wcard{background:#fff;border-radius:16px;border:1px solid var(--br);padding:1.8rem;box-shadow:0 2px 16px rgba(0,0,0,.06);margin-bottom:1.5rem}
+.wcard-title{font-size:15px;font-weight:800;margin-bottom:1.2rem;display:flex;align-items:center;gap:9px}
+.tag-sm{display:inline-block;font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:20px;background:var(--gl);color:var(--g)}
+.wopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+.wopt{border:2px solid var(--br);border-radius:12px;padding:14px 10px;cursor:pointer;text-align:center;background:#fff;transition:all .2s;user-select:none}
+.wopt:hover{border-color:var(--gm);background:#fafffe;transform:translateY(-1px)}
+.wopt.sel{border-color:var(--g);background:var(--gl)}
+.wopt span{font-size:26px;display:block;margin-bottom:5px}
+.wopt strong{font-size:13px;color:var(--t);display:block;font-weight:700}
+.wopt small{font-size:11px;color:var(--tm)}
+
+/* CHECKLIST PANEL */
+.cpanel{background:#fff;border:2px solid var(--g);border-radius:14px;padding:1.5rem;display:none}
+.cpanel.open{display:block}
+
+/* FIX #2: Progress indicator */
+.progress-wrap{margin-bottom:1.2rem}
+.prog-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.prog-title{font-size:15px;font-weight:800;color:var(--g)}
+.prog-count{font-size:13.5px;font-weight:700;color:var(--tm)}
+.prog-count .done-n{color:var(--g)}
+.prog-bar-wrap{background:#e8f0eb;border-radius:6px;height:10px;overflow:hidden}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--g),#00a86b);border-radius:6px;transition:width .4s ease;width:0%}
+.prog-msg{font-size:12px;color:var(--tm);margin-top:5px}
+
+/* FIX #1: Plain language checklist items */
+.ci{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 0;border-bottom:1px solid #f0f3f0;
+  transition:background .15s;
+}
+.ci:last-child{border:none;padding-bottom:0}
+.ci.checked-item{opacity:.65}
+/* Checkbox */
+.cb{
+  width:22px;height:22px;min-width:22px;border-radius:6px;
+  border:2px solid var(--br);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:2px;transition:all .2s;flex-shrink:0;
+}
+.cb.done{background:var(--g);border-color:var(--g);color:#fff;font-size:12px}
+/* Item info */
+.ci-body{flex:1;min-width:0}
+.ci-name{font-size:14px;font-weight:700;color:var(--t)}
+/* FIX #1: Plain language description */
+.ci-plain{font-size:13px;color:var(--tm);margin-top:2px;line-height:1.5}
+/* FIX #4: Contextual help link per item */
+.ci-help{display:none;font-size:12px;color:var(--b);cursor:pointer;text-decoration:underline;margin-top:5px;align-items:center;gap:4px}
+.ci-help.show{display:flex}
+.ci-required{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:10px;background:#fff3f0;color:#c62828;margin-left:6px;vertical-align:middle}
+.ci-optional{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:10px;background:var(--bl);color:var(--b);margin-left:6px;vertical-align:middle}
+
+/* ACTION BUTTONS */
+.cl-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:1.4rem}
+
+/* FIX #5: Email checklist feature */
+.email-modal-wrap{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;
+  display:none;align-items:center;justify-content:center;
+}
+.email-modal-wrap.on{display:flex}
+.email-modal{background:#fff;border-radius:14px;padding:1.8rem;max-width:400px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,.15)}
+.email-modal h3{font-size:1.1rem;font-weight:800;margin-bottom:5px}
+.email-modal p{font-size:13.5px;color:var(--tm);margin-bottom:1.2rem}
+.em-inp{width:100%;padding:10px 13px;border:1.5px solid var(--br);border-radius:8px;font-size:14px;font-family:'Nunito',sans-serif;margin-bottom:10px}
+.em-inp:focus{outline:none;border-color:var(--g)}
+
+/* FIX #3: Mobile sticky CTA */
+.sticky-cta{
+  display:none;position:fixed;bottom:0;left:0;right:0;
+  background:#fff;border-top:1px solid var(--br);
+  padding:12px 16px;z-index:90;
+  box-shadow:0 -4px 20px rgba(0,0,0,.08);
+}
+
+/* Help tooltip */
+.help-tooltip{
+  display:none;background:#f0f4ff;border:1px solid #b3d1f7;
+  border-radius:8px;padding:9px 12px;font-size:12.5px;
+  color:var(--t);margin-top:7px;line-height:1.55;
+}
+.help-tooltip.open{display:block}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;right:22px;background:var(--g);color:#fff;padding:11px 18px;border-radius:9px;font-size:13.5px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.12);transform:translateY(60px);opacity:0;transition:all .3s;z-index:999}
+.toast.on{transform:translateY(0);opacity:1}
+
+@media(max-width:720px){
+  .navl{display:none}
+  .wopts{grid-template-columns:1fr 1fr}
+  .cl-actions{display:none}
+  .sticky-cta{display:block}
+  .sticky-cta .cl-actions{display:flex;margin:0}
+}
+@media(max-width:420px){
+  .wopts{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- Email modal -->
+<div class="email-modal-wrap" id="emailModal">
+  <div class="email-modal">
+    <div style="font-size:30px;margin-bottom:8px">📧</div>
+    <h3>Email This Checklist</h3>
+    <p>We'll send your personalised document checklist to your email address.</p>
+    <input class="em-inp" id="emailInp" type="email" placeholder="your@email.com">
+    <div style="display:flex;gap:10px">
+      <button class="btn bp" onclick="sendEmail()" style="flex:1;justify-content:center">Send Checklist →</button>
+      <button class="btn bg" onclick="document.getElementById('emailModal').classList.remove('on')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="c">
+    <span>🇮🇹 Italy VAC Pakistan — Document Visa Checklist</span>
+    <div class="vbadge">Checklist Generator v1.1</div>
+  </div>
+</div>
+<nav>
+  <div class="c nav-in">
+    <div class="logo"><div class="logo-icon">🇮🇹</div><div><strong>Italy VAC Pakistan</strong><span>Document Checklist</span></div></div>
+    <div class="navl">
+      <div class="nl">Home</div>
+      <div class="nl">Start Application</div>
+      <div class="nl act">Document Checklist</div>
+      <div class="nl">Help &amp; FAQ</div>
+    </div>
+    <button class="cpbtn">🤖 Co-Pilot Mode</button>
+  </div>
+</nav>
+
+<div class="hero-strip">
+  <div class="c">
+    <h1>📄 Find Your Document Checklist</h1>
+    <p>Select your visa type for a personalised, plain-language list of everything you need to bring</p>
+  </div>
+</div>
+
+<section class="sec">
+  <div class="c">
+    <!-- Visa type selector -->
+    <div class="wcard">
+      <div class="wcard-title">🧭 Select Your Visa Type <span class="tag-sm">Takes 30 seconds</span></div>
+      <div class="wopts" id="wopts">
+        <div class="wopt" onclick="selVisa('study',this)">
+          <span>🎓</span><strong>Study</strong><small>University / Course</small>
+        </div>
+        <div class="wopt" onclick="selVisa('tourism',this)">
+          <span>✈️</span><strong>Tourism / Visit</strong><small>Holiday, short stay</small>
+        </div>
+        <div class="wopt" onclick="selVisa('family',this)">
+          <span>👨‍👩‍👧</span><strong>Family Reunion</strong><small>Join family in Italy</small>
+        </div>
+        <div class="wopt" onclick="selVisa('work',this)">
+          <span>💼</span><strong>Work</strong><small>Employment</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checklist panel -->
+    <div class="cpanel" id="clPanel">
+      <!-- FIX #2: Progress indicator -->
+      <div class="progress-wrap">
+        <div class="prog-header">
+          <div class="prog-title" id="clTitle">📄 Your Checklist</div>
+          <div class="prog-count"><span class="done-n" id="doneCount">0</span> / <span id="totalCount">0</span> ready</div>
+        </div>
+        <div class="prog-bar-wrap"><div class="prog-bar" id="progBar"></div></div>
+        <div class="prog-msg" id="progMsg">Tick each document once you have it ready</div>
+      </div>
+
+      <!-- Items injected here -->
+      <div id="clItems"></div>
+
+      <!-- Action buttons (hidden on mobile — sticky CTA shows instead) -->
+      <div class="cl-actions" id="clActions">
+        <button class="btn bp" onclick="goApply()">Continue to Application →</button>
+        <button class="btn bg" onclick="openEmail()">📧 Email This Checklist</button>
+        <button class="btn bg" onclick="resetCL()">← Start Over</button>
+        <button class="btn bg" onclick="toast('📥 PDF saved!')">📥 Save as PDF</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FIX #3: Mobile sticky CTA -->
+<div class="sticky-cta" id="stickyCTA" style="display:none">
+  <div class="cl-actions" style="margin:0">
+    <button class="btn bp" style="flex:1;justify-content:center" onclick="goApply()">Continue to Application →</button>
+    <button class="btn bg" onclick="openEmail()">📧 Email</button>
+    <button class="btn bg" onclick="resetCL()">↩</button>
+  </div>
+</div>
+
+<script>
+// FIX #1: Plain language rewrites for all items
+const CL={
+  study:{
+    t:'🎓 Study Visa — What You Need to Bring',
+    i:[
+      {n:'Valid Passport',plain:'Your Pakistani passport must be valid for at least 6 months after your return date. Make sure it has at least 2 blank pages.',required:true,help:'Your passport expiry date should be at least 6 months after the date you plan to return from Italy. If your passport expires soon, renew it first.'},
+      {n:'University Admission Letter',plain:'A letter from your Italian university confirming they have accepted you onto a course. It should have your name, course name, and start date.',required:true,help:'This letter is issued by the Italian university admissions office. It must be original (not a photocopy) and show the university\'s official stamp or signature.'},
+      {n:'Completed Visa Application Form',plain:'The official visa form filled in and signed by you. You can complete this at our centre or download it from the VFS website.',required:true,help:'Download the form from the Italian Embassy website. Fill it in clearly in block letters. Sign and date it on the last page.'},
+      {n:'Two Passport-Sized Photos',plain:'2 recent photos of you: 35mm × 45mm (like a passport photo), white background, taken within the last 6 months.',required:true,help:'These are the standard Italian visa photo requirements. Most print shops in Pakistan can produce these for PKR 100–200.'},
+      {n:'Proof You Can Pay for Your Stay',plain:'A bank statement from the last 3 months showing you (or your family) have enough money to live in Italy — or a scholarship letter.',required:true,help:'Italian immigration recommends at least €500/month for students. Bank statements must be stamped and signed by the bank. A scholarship letter from the university also works.'},
+      {n:'Health Insurance Certificate',plain:'A travel insurance policy that covers medical emergencies in Italy with at least €30,000 coverage for your whole stay.',required:true,help:'This is required for all Italian visas. You can buy it from any travel insurance provider in Pakistan. Make sure it explicitly covers Italy and shows €30,000 minimum coverage.'},
+      {n:'Where You\'ll Stay in Italy',plain:'Proof of your accommodation — e.g. a university dormitory booking confirmation, a rental contract, or a letter from your host.',required:true,help:'This can be a university\'s housing confirmation email, a signed rental agreement, or a signed letter from someone in Italy confirming you\'ll stay with them.'},
+      {n:'eChallan Payment Receipt',plain:'Your payment receipt for the PKR 11,000 official VAC service fee. Pay online at pay.gov.pk or at any designated bank.',required:true,help:'Generate your eChallan online at pay.gov.pk. Select "Italy VAC Service Fee". Pay at any HBL, MCB, or designated bank. Keep the stamped receipt — you must bring it on the day.'},
+    ]
+  },
+  tourism:{
+    t:'✈️ Tourist / Schengen Visa — What You Need to Bring',
+    i:[
+      {n:'Valid Passport',plain:'Your passport must be valid for at least 3 months after your planned return from Italy. It should have at least 2 blank visa pages.',required:true,help:'Check your passport expiry. If it expires within 6 months of your trip, renew it before applying for a visa.'},
+      {n:'Hotel or Accommodation Booking',plain:'A confirmed booking for every night of your stay — printed or saved as PDF. The booking must show your name and the dates.',required:true,help:'Book refundable hotels for now so you can cancel if your visa is rejected. Airbnb confirmations, hostel bookings, or a letter from someone inviting you to stay also work.'},
+      {n:'Return Flight Tickets',plain:'Confirmed (booked) flights to and from Italy showing your travel dates. Booking references are fine — tickets do not need to be fully paid yet.',required:true,help:'Buy flexible/refundable tickets. Your travel dates on the tickets must match your hotel booking dates. Print or save the full booking confirmation.'},
+      {n:'Travel Insurance',plain:'Insurance that covers your whole trip in Italy, with at least €30,000 medical coverage. The policy must show your travel dates.',required:true,help:'Schengen visa rules require €30,000 minimum medical and evacuation cover. Buy it from any travel insurer in Pakistan. Make sure it explicitly covers Italy (or the Schengen Area).'},
+      {n:'3 Months\' Bank Statement',plain:'Statements from your bank for the last 3 months showing you have enough money for your trip. The statement should be stamped and signed by the bank.',required:true,help:'There\'s no fixed minimum, but a good rule of thumb is €100 per day of your trip. The bank statement must be original with an official stamp. Online printouts are not accepted.'},
+      {n:'Proof of Work or Study',plain:'A letter from your employer or university confirming you have a job or are enrolled in studies, and that you plan to return to Pakistan.',required:true,help:'This is called a "No Objection Certificate" (NOC). Ask your employer\'s HR department or your university registrar. It should be on official letterhead and stamped.'},
+      {n:'eChallan Payment Receipt',plain:'Your receipt for the PKR 11,000 official VAC fee. Pay at any designated bank or online at pay.gov.pk.',required:true,help:'Generate and pay your eChallan before your appointment. Keep the stamped receipt safe — you must hand it in on the day.'},
+    ]
+  },
+  family:{
+    t:'👨‍👩‍👧 Family Reunion Visa — What You Need to Bring',
+    i:[
+      {n:'Valid Passport (all applicants)',plain:'Everyone applying must bring their own passport, valid for at least 6 months after the planned return date.',required:true,help:'If applying for children, their passports are needed even if they currently travel on a parent\'s passport.'},
+      {n:'Sponsor\'s Italian Residence Permit',plain:'A copy of the residence permit (permesso di soggiorno) of the family member who is already living in Italy.',required:true,help:'The sponsor (your family member in Italy) must send you a clear copy of their valid residence permit. It must be current — not expired.'},
+      {n:'Marriage or Birth Certificates',plain:'Official proof of your family relationship — translated into Italian and certified (apostilled). E.g. marriage certificate, children\'s birth certificates.',required:true,help:'Pakistani certificates must be translated into Italian by a certified translator, then apostilled by Pakistan\'s Ministry of Foreign Affairs. This process takes 2–4 weeks — start early.'},
+      {n:'Sponsor\'s Proof of Income',plain:'Payslips or a work contract from your family member in Italy, showing they earn enough to support you.',required:true,help:'Italian immigration typically requires the sponsor to earn at least the Italian minimum wage. Ask your family member to send recent payslips (last 3 months) and their employment contract.'},
+      {n:'Housing Certificate from Italian Council',plain:'A certificate from the Italian local council (comune) saying the house is big enough for the whole family — called a "Nulla Osta per ricongiungimento familiare".',required:true,help:'The sponsor in Italy must apply for this at the local Italian municipality (comune). It confirms the home meets minimum size requirements. This can take 2–6 weeks to obtain.'},
+      {n:'eChallan Receipt (per person)',plain:'Each person applying needs their own PKR 11,000 receipt. Pay separately for each applicant.',required:true,help:'Generate a separate eChallan for each applicant — adults and children all need one. Pay at any designated bank or online.'},
+    ]
+  },
+  work:{
+    t:'💼 Work Visa — What You Need to Bring',
+    i:[
+      {n:'Valid Passport',plain:'Your passport must be valid for at least 6 months beyond your planned end date in Italy. Must have 2 blank pages.',required:true,help:'If your passport expires soon, renew it before applying. Italian work visas can be issued for up to 2 years, so your passport needs enough validity.'},
+      {n:'Work Permit (Nulla Osta al Lavoro)',plain:'A permit issued by the Italian government saying your employer is allowed to hire you. Your Italian employer must apply for this on your behalf.',required:true,help:'Your Italian employer applies for the Nulla Osta at the local police headquarters (Questura) or through the online Italian government portal. You cannot apply for this yourself — your employer must do it.'},
+      {n:'Signed Employment Contract',plain:'The job contract signed by both you and your Italian employer, showing your job title, salary, and start date.',required:true,help:'The contract should be in Italian (or bilingual Italian/English). Make sure it is signed by the employer. A digital signature is acceptable.'},
+      {n:'Qualification Documents',plain:'Copies of your university degree, professional certifications, or trade qualifications relevant to the job. These may need to be translated and certified.',required:true,help:'Documents from Pakistani universities or institutions should be attested by HEC and then by the Ministry of Foreign Affairs. If a translation is required, use a certified translator.'},
+      {n:'eChallan Payment Receipt',plain:'Your PKR 11,000 official VAC fee receipt. Pay at any designated bank or online before your appointment.',required:true,help:'Generate your eChallan at pay.gov.pk and pay at any designated bank. Bring the stamped bank receipt to your appointment.'},
+    ]
+  }
+};
+
+let currentVisa=null;
+let checkedItems=new Set();
+let totalItems=0;
+
+function selVisa(type,el){
+  document.querySelectorAll('#wopts .wopt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  currentVisa=type;
+  checkedItems=new Set();
+  const d=CL[type];
+  totalItems=d.i.length;
+  document.getElementById('clTitle').textContent=d.t;
+  document.getElementById('totalCount').textContent=totalItems;
+  document.getElementById('doneCount').textContent=0;
+  document.getElementById('progBar').style.width='0%';
+  document.getElementById('progMsg').textContent='Tick each document once you have it ready';
+  const c=document.getElementById('clItems');
+  c.innerHTML='';
+  d.i.forEach((it,i)=>{
+    const reqBadge=it.required?'<span class="ci-required">REQUIRED</span>':'<span class="ci-optional">OPTIONAL</span>';
+    c.innerHTML+=`
+    <div class="ci" id="ciRow${i}">
+      <div class="cb" id="cb${i}" onclick="tCB(${i})"></div>
+      <div class="ci-body">
+        <div class="ci-name">${it.n}${reqBadge}</div>
+        <div class="ci-plain">${it.plain}</div>
+        ${it.help?`<div class="ci-help show" onclick="toggleHelp(${i})">ℹ️ What exactly is this? Show guidance</div>
+        <div class="help-tooltip" id="help${i}">${it.help}</div>`:''}
+      </div>
+    </div>`;
+  });
+  document.getElementById('clPanel').classList.add('open');
+  document.getElementById('clActions').style.display='flex';
+  // Mobile sticky CTA
+  if(window.innerWidth<=720){
+    document.getElementById('stickyCTA').style.display='block';
+  }
+}
+
+function tCB(i){
+  const b=document.getElementById('cb'+i);
+  const row=document.getElementById('ciRow'+i);
+  const done=!b.classList.contains('done');
+  b.classList.toggle('done',done);
+  b.textContent=done?'✓':'';
+  row.classList.toggle('checked-item',done);
+  if(done)checkedItems.add(i); else checkedItems.delete(i);
+  updateProgress();
+}
+
+function toggleHelp(i){
+  const tip=document.getElementById('help'+i);
+  tip.classList.toggle('open');
+}
+
+function updateProgress(){
+  const done=checkedItems.size;
+  const total=totalItems;
+  const pct=total>0?Math.round(done/total*100):0;
+  document.getElementById('doneCount').textContent=done;
+  document.getElementById('progBar').style.width=pct+'%';
+  let msg='Tick each document once you have it ready';
+  if(done===0)msg='Tick each document once you have it ready';
+  else if(done<total)msg=`Great progress! ${total-done} more document${total-done>1?'s':''} to prepare`;
+  else msg='🎉 All documents ready! You\'re good to go.';
+  document.getElementById('progMsg').textContent=msg;
+  if(done===total&&total>0)toast('🎉 All documents ticked! Ready to apply.');
+}
+
+function resetCL(){
+  document.querySelectorAll('#wopts .wopt').forEach(o=>o.classList.remove('sel'));
+  document.getElementById('clPanel').classList.remove('open');
+  document.getElementById('stickyCTA').style.display='none';
+  currentVisa=null;checkedItems=new Set();
+}
+
+function openEmail(){document.getElementById('emailModal').classList.add('on');}
+function sendEmail(){
+  const e=document.getElementById('emailInp').value.trim();
+  if(!e||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){toast('⚠️ Please enter a valid email address');return;}
+  document.getElementById('emailModal').classList.remove('on');
+  toast(`📧 Checklist emailed to ${e}!`);
+}
+function goApply(){toast('↗️ Redirecting to application form...');}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),3200);
+}
+</script>
+</body>
+</html>

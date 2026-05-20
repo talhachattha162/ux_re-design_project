@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italy VAC — Queue Application System v1.1</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===================== DESIGN v1.1 CHANGES:
+   H1 — Specific date ranges (not vague "6–10 days")
+   H1 — Required field indicators (asterisks + legend)
+   H3 — Removed contradictory auto-save warning dialog
+   H5 — File upload client-side validation (type + size)
+   H5 — Accepted formats shown BEFORE upload
+   H9 — Actionable error messages replacing generic ones
+   H9 — Inline validation on blur
+   H9 — Contextual help links
+   ===================================== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',sans-serif;font-size:15px;line-height:1.6;color:#1a1a2e;background:#f2f4f8}
+:root{
+  --g:#006B3F;--gl:#e8f5ee;--gm:#b2d8c2;
+  --b:#1565C0;--bl:#e3f0ff;
+  --t:#1a1a2e;--tm:#5c6078;--br:#dde1ec;
+  --err:#c62828;--errbg:#fff5f5;--errbd:#ffcdd2;
+  --warn-bg:#fff8e1;--warn-bd:#ffe082;--warn-t:#6d4c00;
+  --ok:#2e7d32;--okbg:#f0fff6;--okbd:#b2d8c2;
+}
+.c{max-width:820px;margin:0 auto;padding:0 1.5rem}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Sora',sans-serif;transition:all .2s}
+.bp{background:var(--g);color:#fff}.bp:hover{background:#004f2e}
+.bs2{background:#fff;color:var(--g);border:1.5px solid var(--g)}.bs2:hover{background:var(--gl)}
+.bg{background:transparent;color:var(--tm);border:1px solid var(--br)}.bg:hover{background:#f0f1f5}
+
+/* TOPBAR + NAV */
+.topbar{background:var(--g);color:rgba(255,255,255,.9);font-size:12.5px;padding:6px 0}
+.topbar .c{display:flex;justify-content:space-between;align-items:center;max-width:820px}
+nav{background:#fff;border-bottom:1px solid var(--br);position:sticky;top:0;z-index:100;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:820px;margin:0 auto;padding:0 1.5rem}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:34px;height:34px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.logo strong{font-size:13px;display:block}.logo span{font-size:11px;color:var(--tm)}
+.cpbtn{display:flex;align-items:center;gap:6px;background:var(--bl);color:var(--b);border:1.5px solid #b3d1f7;padding:6px 13px;border-radius:7px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:'Sora',sans-serif}
+
+/* VERSION BADGE */
+.vbadge{background:#1a1a2e;color:#fff;font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;display:inline-flex;align-items:center;gap:6px;letter-spacing:.03em}
+
+/* PAGE */
+.fsec{background:#f2f4f8;min-height:calc(100vh - 100px);padding:32px 0}
+.fcard{background:#fff;border-radius:16px;border:1px solid var(--br);overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.06)}
+
+/* FORM HEAD */
+.fhead{background:var(--g);color:#fff;padding:1.3rem 1.7rem;display:flex;align-items:center;gap:12px}
+.fhead h2{font-size:1.05rem;font-weight:700}.fhead p{font-size:12.5px;opacity:.85;margin-top:2px}
+
+/* PROGRESS BAR */
+.pbar{padding:1rem 1.7rem;border-bottom:1px solid var(--br);display:flex;align-items:center;background:#f9fafb}
+.ps{flex:1;display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--tm);padding:4px 5px}
+.ps.done{color:var(--g)}.ps.cur{color:var(--t)}
+.pc{width:24px;height:24px;border-radius:50%;background:#f0f1f5;color:var(--tm);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ps.done .pc{background:var(--g);color:#fff}.ps.cur .pc{background:var(--b);color:#fff}
+.pl{flex:0 0 18px;height:2px;background:var(--br)}.pl.done{background:var(--g)}
+
+/* FORM BODY */
+.fbody{padding:1.7rem}
+
+/* FIX H1: Required field legend */
+.req-legend{font-size:12px;color:var(--tm);margin-bottom:1.2rem;display:flex;align-items:center;gap:5px}
+.req-legend .star{color:var(--err);font-size:14px;font-weight:700}
+
+/* SAVE BAR — simplified (FIX H3: no contradictory warning) */
+.save-bar{display:flex;align-items:center;gap:8px;background:var(--okbg);border:1px solid var(--okbd);border-radius:7px;padding:8px 13px;font-size:12.5px;color:var(--ok);margin-bottom:1.1rem}
+
+/* FORM ROWS */
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:0}
+.fg2{margin-bottom:13px}
+/* FIX H1: Required asterisk on labels */
+.fg2 label{font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:4px;margin-bottom:4px}
+.fg2 label .req{color:var(--err);font-size:14px;line-height:1}
+.fg2 input,.fg2 select{
+  width:100%;padding:9px 12px;border:1.5px solid var(--br);border-radius:7px;
+  font-size:14px;font-family:'Sora',sans-serif;color:var(--t);
+  transition:border-color .2s,box-shadow .2s;
+}
+.fg2 input:focus,.fg2 select:focus{outline:none;border-color:var(--g);box-shadow:0 0 0 3px rgba(0,107,63,.08)}
+/* FIX H9: Inline validation states */
+.fg2 input.valid{border-color:var(--ok);background:var(--okbg)}
+.fg2 input.invalid{border-color:var(--err);background:var(--errbg)}
+.fg2 .hint{font-size:11.5px;color:var(--tm);margin-top:3px;display:flex;align-items:center;gap:4px}
+/* FIX H9: Field error messages */
+.field-err{font-size:12px;color:var(--err);margin-top:4px;display:none;align-items:center;gap:5px}
+.field-err.show{display:flex}
+/* FIX H9: Field success */
+.field-ok{font-size:12px;color:var(--ok);margin-top:4px;display:none;align-items:center;gap:5px}
+.field-ok.show{display:flex}
+
+/* STEP 1 VISA CHOICE */
+.wopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+.wopt{border:1.5px solid var(--br);border-radius:10px;padding:13px 10px;cursor:pointer;text-align:center;background:#fff;transition:all .2s}
+.wopt:hover,.wopt.sel{border-color:var(--g);background:var(--gl);border-width:2px}
+.wopt span{font-size:24px;display:block;margin-bottom:5px}
+.wopt strong{font-size:13px;color:var(--t);display:block}
+.wopt small{font-size:11px;color:var(--tm)}
+.step-err{background:var(--errbg);border:1px solid var(--errbd);border-radius:7px;padding:9px 12px;font-size:13px;color:var(--err);margin-top:9px;display:none;align-items:center;gap:7px}
+.step-err.show{display:flex}
+
+/* FIX H5: Upload rows — format info shown BEFORE upload */
+.urow{border:1.5px solid var(--br);border-radius:10px;padding:14px;margin-bottom:10px;transition:all .2s}
+.urow:hover{border-color:var(--gm)}
+.urow-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.urow strong{font-size:13.5px;font-weight:600;display:block}
+.urow small{font-size:12px;color:var(--tm);margin-top:2px}
+/* FIX H5: Format info shown before upload */
+.fmt-info{
+  display:flex;align-items:center;gap:6px;
+  font-size:11.5px;color:var(--tm);
+  background:#f8f9fc;border:1px solid var(--br);
+  border-radius:6px;padding:6px 10px;margin-top:9px;
+}
+.fmt-tag{background:var(--bl);color:var(--b);font-size:10.5px;font-weight:700;padding:2px 6px;border-radius:4px}
+/* FIX H9: Upload error message */
+.upload-err{
+  display:none;align-items:center;gap:7px;
+  background:var(--errbg);border:1px solid var(--errbd);
+  border-radius:6px;padding:8px 11px;font-size:12.5px;color:var(--err);
+  margin-top:8px;
+}
+.upload-err.show{display:flex}
+.upload-err strong{display:block;font-size:13px}
+.upload-ok{
+  display:none;align-items:center;gap:7px;
+  background:var(--okbg);border:1px solid var(--okbd);
+  border-radius:6px;padding:8px 11px;font-size:12.5px;color:var(--ok);
+  margin-top:8px;
+}
+.upload-ok.show{display:flex}
+
+/* QUEUE BOX */
+.qbox{background:var(--gl);border:1.5px solid var(--g);border-radius:12px;padding:1.3rem;margin-bottom:1.1rem}
+.qbox h4{font-size:14.5px;font-weight:700;color:var(--g);margin-bottom:5px}
+.qtrack{height:8px;background:var(--gm);border-radius:4px;overflow:hidden;margin:10px 0}
+.qfill{width:35%;height:100%;background:var(--g);border-radius:4px}
+/* FIX H1: Specific date range in queue box */
+.qdate-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fff;border:1px solid var(--gm);border-radius:7px;
+  padding:6px 11px;font-size:13px;font-weight:600;color:var(--g);
+  margin-top:8px;
+}
+
+/* FORM FOOTER */
+.ffoot{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.7rem;border-top:1px solid var(--br);background:#f9fafb}
+
+/* CONFIRM CARD */
+.cfcard{max-width:500px;margin:0 auto;background:#fff;border-radius:16px;border:1px solid var(--br);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+.cfh{background:var(--g);color:#fff;padding:1.6rem;text-align:center}
+.cfh .ico{font-size:44px;margin-bottom:6px}
+.cfh h2{font-size:1.25rem;font-weight:700}.cfh p{font-size:13px;opacity:.85;margin-top:4px}
+.cfb{padding:1.5rem}
+.ref-box{background:var(--okbg);border:1.5px solid var(--g);border-radius:10px;padding:1rem;text-align:center;margin-bottom:1.1rem}
+.ref-box small{font-size:11.5px;color:var(--tm);display:block}
+.ref-box strong{font-size:1.5rem;font-weight:700;color:var(--g);letter-spacing:.08em}
+.ir{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0f2f7;font-size:13.5px}
+.ir:last-of-type{border:none}
+.ir .ic{font-size:17px;width:26px;flex-shrink:0}
+.ir small{color:var(--tm);font-size:11.5px;display:block}
+.nxt{background:var(--gl);border:1px solid var(--gm);border-radius:8px;padding:11px 13px;font-size:13px;color:#1a4a2e;margin:11px 0}
+
+/* HELP LINK */
+.help-link{font-size:12px;color:var(--b);text-decoration:underline;cursor:pointer;margin-left:4px}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--g);color:#fff;padding:11px 18px;border-radius:9px;font-size:13.5px;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.12);transform:translateY(70px);opacity:0;transition:all .3s;z-index:999}
+.toast.on{transform:translateY(0);opacity:1}
+
+@media(max-width:620px){.fr{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<div class="topbar">
+  <div class="c" style="max-width:820px">
+    <span>🇮🇹 Italy VAC Pakistan — Visa Application</span>
+    <div class="vbadge">Queue Application System v1.1</div>
+  </div>
+</div>
+<nav>
+  <div class="nav-in">
+    <div class="logo"><div class="logo-icon">🇮🇹</div><div><strong>Italy VAC Pakistan</strong><span>Application Form</span></div></div>
+    <button class="cpbtn">🤖 Need Help? Co-Pilot</button>
+  </div>
+</nav>
+
+<!-- APPLY PAGE -->
+<div id="pg-apply">
+<div class="fsec">
+  <div class="c">
+    <div id="applyCard" class="fcard">
+      <div class="fhead">
+        <div style="font-size:26px">📋</div>
+        <div>
+          <h2>Visa Application — Join the Queue</h2>
+          <p>Progress is saved automatically · <strong style="opacity:.95">Fields marked * are required</strong></p>
+        </div>
+      </div>
+      <div class="pbar" id="pbar">
+        <div class="ps cur" id="fp1"><div class="pc">1</div>&nbsp;Visa</div>
+        <div class="pl" id="pl1"></div>
+        <div class="ps" id="fp2"><div class="pc">2</div>&nbsp;Info</div>
+        <div class="pl" id="pl2"></div>
+        <div class="ps" id="fp3"><div class="pc">3</div>&nbsp;Docs</div>
+        <div class="pl" id="pl3"></div>
+        <div class="ps" id="fp4"><div class="pc">4</div>&nbsp;Queue</div>
+        <div class="pl" id="pl4"></div>
+        <div class="ps" id="fp5"><div class="pc">5</div>&nbsp;Done</div>
+      </div>
+      <div class="fbody">
+
+        <!-- STEP 1 -->
+        <div id="fs1">
+          <!-- FIX H1: Required field legend -->
+          <div class="req-legend"><span class="star">*</span> Indicates required fields</div>
+          <p style="font-size:14.5px;font-weight:700;margin-bottom:.9rem">What is the purpose of your visit to Italy? <span style="color:var(--err);font-size:16px">*</span></p>
+          <div class="wopts" id="vtype" style="margin-bottom:1.2rem">
+            <div class="wopt" onclick="pickV('study',this)"><span>🎓</span><strong>Study</strong><small>University / Course</small></div>
+            <div class="wopt" onclick="pickV('tourism',this)"><span>✈️</span><strong>Tourism</strong><small>Holiday</small></div>
+            <div class="wopt" onclick="pickV('family',this)"><span>👨‍👩‍👧</span><strong>Family Reunion</strong><small>Join family</small></div>
+            <div class="wopt" onclick="pickV('work',this)"><span>💼</span><strong>Work</strong><small>Employment</small></div>
+          </div>
+          <!-- FIX H9: Actionable step error -->
+          <div class="step-err" id="visaErr">⚠️ Please select a visa type to continue. Not sure which applies? <a class="help-link">See visa type guide →</a></div>
+
+          <p style="font-size:14.5px;font-weight:700;margin-bottom:.7rem;margin-top:1.2rem">Which is your nearest VAC city? <span style="color:var(--err);font-size:16px">*</span></p>
+          <div class="wopts" id="vCity">
+            <div class="wopt sel" onclick="pickC(this,'Lahore')"><span>🏙️</span><strong>Lahore</strong></div>
+            <div class="wopt" onclick="pickC(this,'Islamabad')"><span>🏛️</span><strong>Islamabad</strong></div>
+            <div class="wopt" onclick="pickC(this,'Karachi')"><span>🌊</span><strong>Karachi</strong></div>
+            <div class="wopt" onclick="pickC(this,'Faisalabad')"><span>🏭</span><strong>Faisalabad</strong></div>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div id="fs2" style="display:none">
+          <!-- FIX H3: No contradictory warning — just a clean save bar -->
+          <div class="save-bar">✅ Progress automatically saved after every field — resume anytime</div>
+          <!-- FIX H1: Required legend -->
+          <div class="req-legend"><span class="star">*</span> All fields below are required</div>
+          <div class="fr">
+            <div class="fg2">
+              <label>First Name (as in passport) <span class="req">*</span></label>
+              <input type="text" id="fname" placeholder="Muhammad Talha" onblur="validateName('fname')">
+              <div class="field-err" id="fname-err">⚠️ First name is required</div>
+              <div class="field-ok" id="fname-ok">✓ Looks good</div>
+            </div>
+            <div class="fg2">
+              <label>Last Name <span class="req">*</span></label>
+              <input type="text" id="lname" placeholder="Sohail Chattha" onblur="validateName('lname')">
+              <div class="field-err" id="lname-err">⚠️ Last name is required</div>
+              <div class="field-ok" id="lname-ok">✓ Looks good</div>
+            </div>
+          </div>
+          <div class="fr">
+            <div class="fg2">
+              <label>Passport Number <span class="req">*</span></label>
+              <input type="text" id="passport" placeholder="AA1234567" onblur="validatePassport()">
+              <!-- FIX H9: Specific actionable error -->
+              <div class="field-err" id="passport-err">⚠️ Invalid format. Pakistani passports: 2 letters + 7 digits (e.g. AA1234567). <a class="help-link">Help?</a></div>
+              <div class="field-ok" id="passport-ok">✓ Valid format</div>
+            </div>
+            <div class="fg2">
+              <label>Date of Birth <span class="req">*</span></label>
+              <!-- FIX: Date picker instead of free text -->
+              <input type="date" id="dob" onblur="validateDOB()">
+              <div class="field-err" id="dob-err">⚠️ Please select your date of birth</div>
+              <div class="field-ok" id="dob-ok">✓ Date confirmed</div>
+            </div>
+          </div>
+          <div class="fr">
+            <div class="fg2">
+              <label>Mobile (SMS alerts) <span class="req">*</span></label>
+              <input type="tel" id="phone" placeholder="+92 300 000 0000" onblur="validatePhone()">
+              <div class="hint">📱 Appointment notification sent here</div>
+              <!-- FIX H9: Specific phone error -->
+              <div class="field-err" id="phone-err">⚠️ Enter a valid Pakistani mobile: +92 3XX XXXXXXX</div>
+              <div class="field-ok" id="phone-ok">✓ Number looks valid</div>
+            </div>
+            <div class="fg2">
+              <label>Email Address <span class="req">*</span></label>
+              <input type="email" id="email" placeholder="your@email.com" onblur="validateEmail()">
+              <div class="hint">📧 Confirmation sent here</div>
+              <div class="field-err" id="email-err">⚠️ Enter a valid email address (e.g. name@domain.com)</div>
+              <div class="field-ok" id="email-ok">✓ Email looks valid</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3 — FIX H5: format info + client-side validation -->
+        <div id="fs3" style="display:none">
+          <div class="save-bar">✅ Progress saved — upload your documents below</div>
+
+          <!-- Upload Row 1 -->
+          <div class="urow" id="urow1">
+            <div class="urow-top">
+              <div>
+                <strong>Admission Letter <span style="color:var(--err)">*</span></strong>
+                <small>Original letter from Italian university</small>
+              </div>
+              <label style="cursor:pointer">
+                <input type="file" id="ufile1" style="display:none" accept=".pdf,.doc,.docx" onchange="handleUpload(1,this)">
+                <span class="btn bs2" style="font-size:12.5px;padding:7px 13px" id="ub1">📎 Upload</span>
+              </label>
+            </div>
+            <!-- FIX H5: Accepted formats shown BEFORE upload -->
+            <div class="fmt-info" id="fmtInfo1">
+              <span>Accepted:</span>
+              <span class="fmt-tag">PDF</span>
+              <span class="fmt-tag">DOC</span>
+              <span class="fmt-tag">DOCX</span>
+              <span style="margin-left:4px">· Max size: 5 MB</span>
+            </div>
+            <!-- FIX H9: Actionable upload error -->
+            <div class="upload-err" id="uerr1">
+              <span>⚠️</span>
+              <div><strong id="uerr1-title">Upload failed</strong><span id="uerr1-detail"></span></div>
+            </div>
+            <div class="upload-ok" id="uok1">✅ <span id="uok1-name"></span> uploaded successfully</div>
+          </div>
+
+          <!-- Upload Row 2 -->
+          <div class="urow" id="urow2">
+            <div class="urow-top">
+              <div>
+                <strong>Passport Bio-Page <span style="color:var(--err)">*</span></strong>
+                <small>Clear scan of the photo page</small>
+              </div>
+              <label style="cursor:pointer">
+                <input type="file" id="ufile2" style="display:none" accept=".pdf,.jpg,.jpeg,.png" onchange="handleUpload(2,this)">
+                <span class="btn bs2" style="font-size:12.5px;padding:7px 13px" id="ub2">📎 Upload</span>
+              </label>
+            </div>
+            <div class="fmt-info" id="fmtInfo2">
+              <span>Accepted:</span>
+              <span class="fmt-tag">PDF</span>
+              <span class="fmt-tag">JPG</span>
+              <span class="fmt-tag">PNG</span>
+              <span style="margin-left:4px">· Max size: 5 MB</span>
+            </div>
+            <div class="upload-err" id="uerr2">
+              <span>⚠️</span>
+              <div><strong id="uerr2-title">Upload failed</strong><span id="uerr2-detail"></span></div>
+            </div>
+            <div class="upload-ok" id="uok2">✅ <span id="uok2-name"></span> uploaded successfully</div>
+          </div>
+
+          <p style="font-size:12px;color:var(--tm);border:1px dashed var(--br);border-radius:8px;padding:11px;text-align:center;margin-top:4px">Other documents can be brought physically to your appointment date</p>
+        </div>
+
+        <!-- STEP 4 — FIX H1: Specific date ranges, FIX H3: No contradictory warning -->
+        <div id="fs4" style="display:none">
+          <div class="qbox">
+            <h4>📍 Appointment Queue — <span id="vcity">Lahore</span> VAC</h4>
+            <p style="font-size:13px;color:#1a4a2e">There are currently <strong>31 people</strong> ahead of you in the queue.</p>
+            <div class="qtrack"><div class="qfill"></div></div>
+            <!-- FIX H1: Specific date range instead of vague estimate -->
+            <div class="qdate-badge">
+              📅 Estimated appointment window: <strong>May 26 – June 3, 2025</strong>
+            </div>
+            <p style="font-size:12.5px;color:#2d6b4a;margin-top:9px">You'll receive an SMS when your slot is ready. You'll then have <strong>3 days</strong> to confirm your preferred time and date.</p>
+          </div>
+          <div class="fg2">
+            <label>Confirm Mobile for SMS <span class="req">*</span></label>
+            <input type="tel" id="qPhone" placeholder="+92 300 000 0000" onblur="validatePhone2()">
+            <div class="field-err" id="qphone-err">⚠️ Enter a valid Pakistani mobile: +92 3XX XXXXXXX</div>
+            <div class="field-ok" id="qphone-ok">✓ We'll send your queue confirmation here</div>
+            <div class="hint">💬 SMS confirmation will arrive within 6–10 days</div>
+          </div>
+          <!-- FIX H3: Only one simple informational note — no contradictory warning dialog -->
+          <div style="background:#f0f4ff;border:1px solid #b3d1f7;border-radius:8px;padding:11px 13px;font-size:13px;color:#1565C0;margin-top:10px">
+            ℹ️ <strong>By joining the queue</strong> you confirm all information is accurate. Your progress is already saved — you'll receive an SMS when your slot opens.
+          </div>
+        </div>
+
+      </div>
+      <div class="ffoot">
+        <button class="btn bg" id="fback" onclick="fBack()" style="display:none">← Back</button>
+        <span style="font-size:12px;color:var(--tm)" id="fstep">Step 1 of 5</span>
+        <button class="btn bp" id="fnext" onclick="fNext()">Continue →</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- CONFIRM PAGE -->
+<div id="pg-confirm" style="display:none">
+<div class="fsec">
+  <div class="c">
+    <div class="cfcard">
+      <div class="cfh"><div class="ico">🎉</div><h2>You're in the Queue!</h2><p>We'll notify you by SMS &amp; email when your slot is ready.</p></div>
+      <div class="cfb">
+        <div class="ref-box"><small>Your Reference Number</small><strong>LAH-2025-003847</strong></div>
+        <div class="ir"><div class="ic">📍</div><div><small>VAC Location</small><strong id="cCity">Lahore VAC</strong></div></div>
+        <div class="ir"><div class="ic">🎟️</div><div><small>Queue Position</small><strong style="color:var(--g)">32nd in line</strong></div></div>
+        <div class="ir"><div class="ic">📅</div><div><small>Estimated Appointment Window</small><strong>May 26 – June 3, 2025</strong></div></div>
+        <div class="ir"><div class="ic">📋</div><div><small>Visa Type</small><strong id="cVisa">Type D — Student Visa</strong></div></div>
+        <div class="nxt"><strong>What happens next?</strong><br>When your slot is ready you'll receive an SMS. You'll have 3 days to confirm your preferred time and date.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn bp" onclick="showApply()">← Back to Home</button>
+          <button class="btn bs2" onclick="toast('📄 Checklist emailed to you!')">📄 Email Checklist</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),3200);
+}
+function showApply(){
+  document.getElementById('pg-confirm').style.display='none';
+  document.getElementById('pg-apply').style.display='block';
+  fStep=1;fVisa='';fCity='Lahore';setStep(1);
+}
+
+let fStep=1,fVisa='',fCity='Lahore';
+const vLabels={study:'Type D — Student Visa',tourism:'Type C — Tourist Visa',family:'Family Reunion Visa',work:'Work Visa'};
+
+function pickV(v,el){
+  document.querySelectorAll('#vtype .wopt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');fVisa=v;
+  document.getElementById('visaErr').classList.remove('show');
+}
+function pickC(el,c){
+  document.querySelectorAll('#vCity .wopt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');fCity=c;
+  document.getElementById('vcity').textContent=c;
+}
+function setStep(n){
+  for(let i=1;i<=4;i++){const s=document.getElementById('fs'+i);if(s)s.style.display=i===n?'block':'none';}
+  for(let i=1;i<=5;i++){
+    const p=document.getElementById('fp'+i);
+    p.classList.remove('done','cur');p.querySelector('.pc').textContent=i;
+  }
+  for(let i=1;i<n;i++){document.getElementById('fp'+i).classList.add('done');document.getElementById('fp'+i).querySelector('.pc').textContent='✓';}
+  document.getElementById('fp'+n).classList.add('cur');
+  for(let i=1;i<=4;i++){const l=document.getElementById('pl'+i);if(l){l.classList.remove('done');if(i<n)l.classList.add('done');}}
+  document.getElementById('fstep').textContent='Step '+n+' of 5';
+  document.getElementById('fback').style.display=n>1?'inline-flex':'none';
+  document.getElementById('fnext').textContent=n===4?'Join Queue →':'Continue →';
+  fStep=n;
+}
+
+// FIX H9: Inline validation helpers
+function setFieldState(id,valid,errMsg,okMsg){
+  const inp=document.getElementById(id);
+  const err=document.getElementById(id+'-err');
+  const ok=document.getElementById(id+'-ok');
+  if(!inp)return;
+  inp.classList.toggle('valid',valid);inp.classList.toggle('invalid',!valid);
+  if(err){err.classList.toggle('show',!valid);if(errMsg)err.innerHTML=errMsg;}
+  if(ok){ok.classList.toggle('show',valid);if(okMsg)ok.textContent='✓ '+okMsg;}
+}
+function validateName(id){
+  const v=document.getElementById(id).value.trim();
+  setFieldState(id,v.length>=2,'⚠️ This field is required','Looks good');
+}
+function validatePassport(){
+  const v=document.getElementById('passport').value.trim();
+  const ok=/^[A-Za-z]{2}\d{7}$/.test(v);
+  setFieldState('passport',ok,'⚠️ Invalid format. Pakistani passports: 2 letters + 7 digits (e.g. AA1234567). <a class="help-link">Help?</a>','Valid Pakistani passport format');
+}
+function validateDOB(){
+  const v=document.getElementById('dob').value;
+  setFieldState('dob',!!v,'⚠️ Please select your date of birth','Date confirmed');
+}
+function validatePhone(){
+  const v=document.getElementById('phone').value.trim();
+  const ok=/^\+?92[3][0-9]{9}$/.test(v.replace(/\s/g,''))||/^03[0-9]{9}$/.test(v.replace(/\s/g,''));
+  setFieldState('phone',ok,'⚠️ Enter a valid Pakistani mobile: +92 3XX XXXXXXX or 03XX XXXXXXX','Number looks valid');
+}
+function validateEmail(){
+  const v=document.getElementById('email').value.trim();
+  const ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  setFieldState('email',ok,'⚠️ Enter a valid email address (e.g. name@domain.com)','Email looks valid');
+}
+function validatePhone2(){
+  const v=document.getElementById('qPhone').value.trim();
+  const ok=/^\+?92[3][0-9]{9}$/.test(v.replace(/\s/g,''))||/^03[0-9]{9}$/.test(v.replace(/\s/g,''));
+  const id='qphone';
+  const inp=document.getElementById('qPhone');
+  const err=document.getElementById('qphone-err');
+  const oks=document.getElementById('qphone-ok');
+  inp.classList.toggle('valid',ok);inp.classList.toggle('invalid',!ok);
+  err.classList.toggle('show',!ok);
+  oks.classList.toggle('show',ok);
+}
+
+// FIX H5: Client-side upload validation
+const UPLOAD_CONFIGS={
+  1:{accept:['.pdf','.doc','.docx'],types:['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document']},
+  2:{accept:['.pdf','.jpg','.jpeg','.png'],types:['application/pdf','image/jpeg','image/png']}
+};
+function handleUpload(n,inp){
+  const file=inp.files[0];
+  const errEl=document.getElementById('uerr'+n);
+  const okEl=document.getElementById('uok'+n);
+  const cfg=UPLOAD_CONFIGS[n];
+  errEl.classList.remove('show');okEl.classList.remove('show');
+  if(!file)return;
+  // Check file type
+  const ext='.'+file.name.split('.').pop().toLowerCase();
+  const validType=cfg.accept.includes(ext)||cfg.types.includes(file.type);
+  if(!validType){
+    const accepted=cfg.accept.join(', ');
+    document.getElementById('uerr'+n+'-title').textContent='Wrong file type';
+    document.getElementById('uerr'+n+'-detail').textContent=` "${file.name}" is not accepted. Please upload: ${accepted}.`;
+    errEl.classList.add('show');
+    inp.value='';return;
+  }
+  // Check file size (5MB)
+  if(file.size>5*1024*1024){
+    document.getElementById('uerr'+n+'-title').textContent='File too large';
+    document.getElementById('uerr'+n+'-detail').textContent=` "${file.name}" is ${(file.size/1024/1024).toFixed(1)}MB. Maximum allowed: 5MB. Please compress or scan at a lower resolution.`;
+    errEl.classList.add('show');
+    inp.value='';return;
+  }
+  // Success
+  const btn=document.getElementById('ub'+n);
+  btn.textContent='✅ '+file.name.slice(0,18)+(file.name.length>18?'…':'');
+  btn.style.background='var(--okbg)';btn.style.color='var(--ok)';btn.style.border='1.5px solid var(--okbd)';
+  document.getElementById('uok'+n+'-name').textContent=file.name.slice(0,25)+(file.name.length>25?'…':'');
+  okEl.classList.add('show');
+  // Hide format info after successful upload
+  document.getElementById('fmtInfo'+n).style.display='none';
+  toast('✅ File validated and uploaded');
+}
+
+function fNext(){
+  if(fStep===1){
+    if(!fVisa){document.getElementById('visaErr').classList.add('show');return;}
+  }
+  if(fStep===2){
+    let valid=true;
+    ['fname','lname'].forEach(id=>{if(!document.getElementById(id).value.trim()){validateName(id);valid=false;}});
+    if(!document.getElementById('passport').value.trim()){validatePassport();valid=false;}
+    if(!document.getElementById('dob').value){validateDOB();valid=false;}
+    if(!valid){toast('⚠️ Please fix the errors above to continue');return;}
+  }
+  if(fStep<4)setStep(fStep+1);
+  else{
+    document.getElementById('cCity').textContent=fCity+' VAC';
+    document.getElementById('cVisa').textContent=vLabels[fVisa]||fVisa;
+    document.getElementById('pg-apply').style.display='none';
+    document.getElementById('pg-confirm').style.display='block';
+    window.scrollTo(0,0);
+  }
+}
+function fBack(){if(fStep>1)setStep(fStep-1);}
+</script>
+</body>
+</html>
