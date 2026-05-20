@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Italy VAC Pakistan — Homepage v1.1</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+/* ===================== DESIGN v1.1 CHANGES:
+   1. Loading spinner on "Start My Application" button
+   2. Sticky "Track Application" button on mobile
+   3. Actionable error messages on invalid reference
+   4. Improved Co-Pilot label + icon discoverability
+   5. Bottom-sheet Co-Pilot modal on mobile
+   ===================================== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;color:#1a1a2e;background:#f5f7fa}
+:root{
+  --g:#006B3F;--gl:#e8f5ee;--gm:#b2d8c2;--b:#1565C0;--bl:#e3f0ff;
+  --t:#1a1a2e;--tm:#5c6078;--br:#dde1ec;
+  --shadow:0 4px 24px rgba(0,0,0,.09);
+}
+.c{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s}
+.bp{background:var(--g);color:#fff}.bp:hover{background:#004f2e}
+.bs{background:#fff;color:var(--g);border:1.5px solid var(--g)}.bs:hover{background:var(--gl)}
+.bg{background:transparent;color:var(--tm);border:1px solid var(--br)}.bg:hover{background:#f0f1f5}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
+.tg{background:var(--gl);color:var(--g)}.tb{background:var(--bl);color:var(--b)}
+
+/* ===== TOPBAR + NAV ===== */
+.topbar{background:var(--g);color:rgba(255,255,255,.9);font-size:12.5px;padding:6px 0}
+.topbar .c{display:flex;justify-content:space-between;align-items:center}
+.lang-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:4px 12px;border-radius:20px;font-size:12px;cursor:pointer}
+nav{background:#fff;border-bottom:1px solid var(--br);position:sticky;top:0;z-index:100;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-icon{width:36px;height:36px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo strong{font-size:14px;display:block}.logo span{font-size:11px;color:var(--tm)}
+.navl{display:flex;gap:2px}
+.nl{color:var(--tm);font-size:13px;font-weight:500;padding:7px 12px;border-radius:6px;cursor:pointer;transition:all .2s}
+.nl:hover,.nl.act{color:var(--g);background:var(--gl)}
+
+/* FIX #4: Co-Pilot button — more prominent with icon + label + pulsing badge */
+.cpbtn{
+  display:flex;align-items:center;gap:8px;
+  background:var(--b);color:#fff;
+  border:none;padding:8px 16px;border-radius:8px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  position:relative;
+  transition:all .2s;
+  box-shadow:0 2px 10px rgba(21,101,192,.3);
+}
+.cpbtn:hover{background:#0d47a1;transform:translateY(-1px)}
+.cpbtn .badge{
+  position:absolute;top:-5px;right:-5px;
+  width:14px;height:14px;border-radius:50%;
+  background:#ff4757;border:2px solid #fff;
+  animation:ping 1.8s infinite;
+}
+@keyframes ping{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.7}}
+
+/* ===== HERO ===== */
+.hero{background:linear-gradient(135deg,#004f2e,#006B3F,#008450);color:#fff;padding:52px 0 60px;overflow:hidden;position:relative}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
+.hero-g{display:grid;grid-template-columns:1fr 370px;gap:3rem;align-items:center;position:relative;z-index:1}
+.hero h1{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;line-height:1.2;margin-bottom:.9rem}
+.hero p{color:rgba(255,255,255,.82);font-size:1rem;margin-bottom:1.6rem;max-width:440px}
+.hbtns{display:flex;gap:10px;flex-wrap:wrap}
+
+/* FIX #1: Start My Application button — loading state */
+.hbm{
+  background:#fff;color:var(--g);padding:11px 22px;
+  border-radius:8px;font-weight:700;font-size:14.5px;
+  cursor:pointer;border:none;font-family:'DM Sans',sans-serif;
+  transition:all .2s;display:inline-flex;align-items:center;gap:8px;
+  position:relative;min-width:200px;justify-content:center;
+}
+.hbm:hover{background:#f0fff6;transform:translateY(-1px)}
+.hbm.loading{pointer-events:none;opacity:.88}
+.hbm .spin{
+  width:16px;height:16px;border:2.5px solid rgba(0,107,63,.25);
+  border-top-color:var(--g);border-radius:50%;
+  animation:spin .7s linear infinite;display:none;
+}
+.hbm.loading .spin{display:block}
+.hbm.loading .btn-label::after{content:' Loading...'}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.hbs{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);color:#fff;padding:11px 20px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.hbs:hover{background:rgba(255,255,255,.25)}
+.perks{display:flex;gap:14px;margin-top:1.4rem;flex-wrap:wrap}
+.perks span{font-size:12.5px;color:rgba(255,255,255,.75)}
+
+/* ===== STATUS CARD (hero right) ===== */
+.scard{background:#fff;border-radius:14px;padding:1.5rem;color:var(--t);box-shadow:0 4px 20px rgba(0,0,0,.12)}
+.scard h3{font-size:14.5px;font-weight:700;margin-bottom:1rem}
+.ig label{font-size:12px;font-weight:600;color:var(--tm);display:block;margin-bottom:4px}
+.ig input{width:100%;padding:9px 12px;border:1.5px solid var(--br);border-radius:7px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:9px;transition:border-color .2s}
+.ig input:focus{outline:none;border-color:var(--g)}
+
+/* FIX #3: Error state on status input */
+.ig input.err{border-color:#e53935;background:#fff5f5}
+.err-msg{font-size:12px;color:#c62828;background:#fff5f5;border:1px solid #ffcdd2;border-radius:6px;padding:8px 11px;margin-bottom:9px;display:none;align-items:center;gap:6px}
+.err-msg.show{display:flex}
+.err-msg strong{display:block;margin-bottom:2px;font-size:12.5px}
+
+.div2{text-align:center;font-size:12px;color:var(--tm);margin:10px 0;position:relative}
+.div2::before,.div2::after{content:'';position:absolute;top:50%;width:44%;height:1px;background:var(--br)}
+.div2::before{left:0}.div2::after{right:0}
+
+/* ===== SECTIONS ===== */
+.sec{padding:48px 0}
+.sec-w{background:#fff;border-bottom:1px solid var(--br)}
+.sh{text-align:center;margin-bottom:2rem}
+.sh .ey{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g);display:block;margin-bottom:6px}
+.sh h2{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;margin-bottom:6px}
+.sh p{font-size:14px;color:var(--tm)}
+
+/* ===== STEPS ===== */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);position:relative}
+.steps::before{content:'';position:absolute;top:27px;left:10%;right:10%;height:2px;background:var(--gm);z-index:0}
+.step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 6px;position:relative;z-index:1}
+.sc{width:54px;height:54px;border-radius:50%;border:2.5px solid var(--g);background:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:10px;position:relative}
+.sn{position:absolute;top:-4px;right:-4px;width:19px;height:19px;border-radius:50%;background:var(--g);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.step h4{font-size:12px;font-weight:700;margin-bottom:3px}
+.step p{font-size:11.5px;color:var(--tm)}
+
+/* ===== QUEUE BANNER ===== */
+.qbanner{background:linear-gradient(135deg,#e8f5ee,#d4eede);border:1px solid var(--gm);border-radius:12px;padding:1.2rem 1.6rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.qdot{width:11px;height:11px;border-radius:50%;background:var(--g);flex-shrink:0;animation:blink 1.8s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.qi{display:flex;align-items:center;gap:12px}
+.qi strong{font-size:14.5px;color:var(--g);display:block}
+.qi span{font-size:13px;color:#2d6b4a}
+
+/* FIX: Queue wait improved to specific date range */
+.qstats{display:flex;gap:1.4rem}
+.qs strong{font-size:1.4rem;font-weight:700;color:var(--g);display:block}
+.qs span{font-size:11px;color:#2d6b4a}
+.qdate-label{font-size:12px;font-weight:600;color:var(--g);background:var(--gl);border:1px solid var(--gm);border-radius:5px;padding:2px 7px;margin-top:3px;display:inline-block}
+
+/* ===== ACTION CARDS ===== */
+.agrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:1.5rem}
+.acard{background:#fff;border:1.5px solid var(--br);border-radius:14px;padding:1.5rem;cursor:pointer;transition:all .2s}
+.acard:hover{border-color:var(--g);box-shadow:var(--shadow);transform:translateY(-2px)}
+.ai{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:.9rem}
+.aig{background:var(--gl)}.aib{background:var(--bl)}.aio{background:#fdf6e3}
+.acard h3{font-size:15px;font-weight:700;margin-bottom:5px}
+.acard p{font-size:13px;color:var(--tm);line-height:1.5}
+.arr{font-size:13px;font-weight:600;color:var(--g);margin-top:10px;display:inline-block}
+
+/* ===== CO-PILOT SECTION ===== */
+.cpsec{background:linear-gradient(135deg,#0d47a1,#1565C0);padding:48px 0;color:#fff}
+.cpg{display:grid;grid-template-columns:1fr 360px;gap:3rem;align-items:center}
+.cpsec h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;margin-bottom:.9rem;line-height:1.25}
+.cpsec p{font-size:14px;color:rgba(255,255,255,.82);margin-bottom:1.3rem}
+.cpf div{font-size:13.5px;color:rgba(255,255,255,.9);margin-bottom:8px}
+.cpf div::before{content:'✓ ';color:#7dffb3;font-weight:700}
+.cmock{background:#fff;border-radius:14px;overflow:hidden;color:var(--t)}
+.ch2{background:#f8f9fc;border-bottom:1px solid var(--br);padding:11px 14px;display:flex;align-items:center;gap:10px}
+.cav{width:30px;height:30px;border-radius:50%;background:var(--b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px}
+.ch2 strong{font-size:13px;display:block}.ch2 small{font-size:11px;color:var(--g)}
+.cbody2{padding:14px;display:flex;flex-direction:column;gap:9px;min-height:190px}
+.cm{max-width:88%;padding:9px 12px;border-radius:10px;font-size:13px;line-height:1.5}
+.cm.b{background:#f0f4ff;border-radius:4px 10px 10px 10px}
+.cm.u{background:var(--b);color:#fff;border-radius:10px 4px 10px 10px;align-self:flex-end}
+.cin2{border-top:1px solid var(--br);padding:9px 12px;display:flex;gap:8px}
+.cin2 input{flex:1;padding:8px 11px;border:1.5px solid var(--br);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif}
+.cin2 button{background:var(--b);color:#fff;border:none;border-radius:7px;padding:8px 14px;cursor:pointer}
+
+/* ===== FAQ ===== */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:1.8rem}
+.fi{background:#fff;border:1px solid var(--br);border-radius:11px;overflow:hidden}
+.fq{padding:13px 16px;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:background .2s}
+.fq:hover{background:#f5f6fa}.fq.open{color:var(--g)}
+.fch{font-size:15px;color:var(--tm);transition:transform .2s;flex-shrink:0}
+.fq.open .fch{transform:rotate(180deg);color:var(--g)}
+.fa{max-height:0;overflow:hidden;transition:max-height .3s}.fa.open{max-height:200px}
+.fa-in{padding:11px 16px 13px;font-size:13px;color:var(--tm);line-height:1.6;border-top:1px solid var(--br)}
+
+/* ===== OFFICES ===== */
+.ogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.oc{border:1px solid var(--br);border-radius:11px;padding:1.1rem;transition:all .2s}
+.oc:hover{border-color:var(--g);box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.oc strong{font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.oc p{font-size:12px;color:var(--tm);margin-bottom:6px}
+.oc small{font-size:12px;color:var(--g);font-weight:600}
+
+/* ===== FOOTER ===== */
+footer{background:#1a2e1f;color:rgba(255,255,255,.8);padding:36px 0 18px}
+.fg-foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:1.8rem}
+.fc h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);margin-bottom:10px}
+.fc a{display:block;font-size:13px;color:rgba(255,255,255,.7);margin-bottom:6px;cursor:pointer;text-decoration:none}
+.fc a:hover{color:#fff}
+.fb{border-top:1px solid rgba(255,255,255,.1);padding-top:14px;font-size:12px;color:rgba(255,255,255,.35);display:flex;justify-content:space-between}
+
+/* ===== FIX #5: BOTTOM SHEET CO-PILOT (mobile) ===== */
+.bs-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;
+  display:none;opacity:0;transition:opacity .3s;
+}
+.bs-overlay.on{display:flex;align-items:flex-end;}
+.bs-overlay.vis{opacity:1}
+.bs-sheet{
+  width:100%;background:#fff;border-radius:18px 18px 0 0;
+  padding:1.4rem;max-height:85vh;overflow-y:auto;
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+}
+.bs-overlay.vis .bs-sheet{transform:translateY(0)}
+.bs-handle{width:40px;height:4px;background:#dde1ec;border-radius:2px;margin:0 auto 1.2rem}
+.bs-h{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+.bs-av{width:40px;height:40px;border-radius:50%;background:var(--b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px}
+.bs-qs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1rem}
+.bs-q{font-size:13px;padding:6px 12px;border:1px solid var(--br);border-radius:15px;background:#f8f9fc;cursor:pointer;color:var(--t)}
+.bs-msgs{display:flex;flex-direction:column;gap:10px;margin-bottom:1rem;min-height:100px}
+.bs-msg{max-width:88%;padding:9px 12px;border-radius:10px;font-size:13.5px;line-height:1.55}
+.bs-msg.b{background:#f0f4ff}
+.bs-msg.u{background:var(--b);color:#fff;align-self:flex-end}
+.bs-in-r{display:flex;gap:8px}
+.bs-in{flex:1;padding:10px 13px;border:1.5px solid var(--br);border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif}
+.bs-in:focus{outline:none;border-color:var(--b)}
+.bs-snd{background:var(--b);color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer}
+
+/* FIX #2: Sticky mobile track button */
+.mobile-track-sticky{
+  display:none;
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+  background:var(--g);color:#fff;border:none;border-radius:30px;
+  padding:12px 24px;font-size:14px;font-weight:700;
+  box-shadow:0 4px 20px rgba(0,107,63,.4);z-index:90;
+  font-family:'DM Sans',sans-serif;cursor:pointer;
+  align-items:center;gap:8px;white-space:nowrap;
+}
+.mobile-track-sticky:hover{background:#004f2e}
+
+/* ===== TOAST ===== */
+.toast{
+  position:fixed;bottom:22px;right:22px;
+  background:var(--g);color:#fff;padding:11px 18px;
+  border-radius:9px;font-size:13.5px;font-weight:600;
+  box-shadow:0 4px 20px rgba(0,0,0,.12);
+  transform:translateY(70px);opacity:0;transition:all .3s;z-index:999;
+  display:flex;align-items:center;gap:8px;
+}
+.toast.on{transform:translateY(0);opacity:1}
+
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center}
+.mo.on{display:flex}
+.mb{background:#fff;border-radius:14px;padding:2rem;max-width:420px;width:90%;text-align:center}
+.mb h3{font-size:1.05rem;font-weight:700;margin-bottom:7px}
+.mb p{font-size:13.5px;color:var(--tm);margin-bottom:1.3rem}
+
+/* ===== VERSION BADGE ===== */
+.vbadge{
+  position:fixed;top:14px;left:50%;transform:translateX(-50%);
+  background:#1a1a2e;color:#fff;font-size:11px;font-weight:700;
+  padding:5px 14px;border-radius:20px;z-index:999;letter-spacing:.04em;
+  box-shadow:0 2px 10px rgba(0,0,0,.2);pointer-events:none;
+}
+
+@media(max-width:860px){
+  .hero-g,.cpg{grid-template-columns:1fr}
+  .scard,.cmock{display:none}
+  .steps{grid-template-columns:1fr 1fr;gap:14px}.steps::before{display:none}
+  .agrid{grid-template-columns:1fr}
+  .fgrid,.ogrid{grid-template-columns:1fr}
+  .fg-foot{grid-template-columns:1fr 1fr}
+  .navl{display:none}
+  /* Show sticky track button on mobile */
+  .mobile-track-sticky{display:flex}
+  /* Show Co-Pilot as bottom sheet trigger on mobile */
+  .cpbtn .cp-label{display:none}
+}
+@media(max-width:540px){
+  .steps{grid-template-columns:1fr}.fg-foot{grid-template-columns:1fr}
+  .hero h1{font-size:1.75rem}
+}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- FIX #5: Bottom sheet Co-Pilot (mobile) -->
+<div class="bs-overlay" id="bsOverlay" onclick="closeBSFromOverlay(event)">
+  <div class="bs-sheet" id="bsSheet">
+    <div class="bs-handle"></div>
+    <div class="bs-h">
+      <div class="bs-av">🤖</div>
+      <div><strong style="font-size:15px;display:block">Italy VAC Co-Pilot</strong><small style="font-size:12px;color:var(--g)">● Online · اردو available</small></div>
+    </div>
+    <div class="bs-qs">
+      <button class="bs-q" onclick="bsSend(this.textContent)">How does the queue work?</button>
+      <button class="bs-q" onclick="bsSend(this.textContent)">What documents do I need?</button>
+      <button class="bs-q" onclick="bsSend(this.textContent)">What is the fee?</button>
+      <button class="bs-q" onclick="bsSend(this.textContent)">Can I use Urdu?</button>
+    </div>
+    <div class="bs-msgs" id="bsMsgs">
+      <div class="bs-msg b">👋 Hello! I'm here to guide your Italy visa application step by step. Ask me anything!</div>
+    </div>
+    <div class="bs-in-r">
+      <input class="bs-in" id="bsIn" placeholder="Type your question..." onkeydown="if(event.key==='Enter')bsSend()">
+      <button class="bs-snd" onclick="bsSend()">→</button>
+    </div>
+  </div>
+</div>
+
+<!-- Language Modal -->
+<div class="mo" id="lm">
+  <div class="mb">
+    <div style="font-size:30px;margin-bottom:7px">🌐</div>
+    <h3>Choose Language / زبان منتخب کریں</h3>
+    <p>Available in English and Urdu<br><span style="font-size:13px">یہ پورٹل اردو اور انگریزی میں دستیاب ہے</span></p>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn bp" onclick="closeLM('en')">🇬🇧 English</button>
+      <button class="btn bs" onclick="closeLM('ur')">🇵🇰 اردو</button>
+    </div>
+  </div>
+</div>
+
+<!-- FIX #2: Sticky track button (mobile only) -->
+<button class="mobile-track-sticky" onclick="scrollToTrack()">📡 Track My Application</button>
+
+<!-- ======= HOME ======= -->
+<div class="topbar">
+  <div class="c">
+    <span>Official Italy Visa Application Centre — Pakistan · <strong>Intiana</strong></span>
+    <button class="lang-btn" onclick="document.getElementById('lm').classList.add('on')">🌐 Language / زبان</button>
+  </div>
+</div>
+<nav>
+  <div class="c nav-in">
+    <div class="logo"><div class="logo-icon">🇮🇹</div><div><strong>Italy VAC Pakistan</strong><span>theitalyvisa.com</span></div></div>
+    <div class="navl">
+      <div class="nl act">Home</div>
+      <div class="nl">Start Application</div>
+      <div class="nl">Document Checklist</div>
+      <div class="nl" onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">Help &amp; FAQ</div>
+      <div class="nl" onclick="document.getElementById('offices').scrollIntoView({behavior:'smooth'})">Offices</div>
+    </div>
+    <!-- FIX #4: Co-Pilot button — redesigned with icon + label + pulse badge -->
+    <button class="cpbtn" onclick="openCopilot()">
+      🤖 <span class="cp-label">Co-Pilot &nbsp;— Get Help</span>
+      <div class="badge"></div>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="c">
+    <div class="hero-g">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;font-size:12px;padding:4px 12px;margin-bottom:1rem">🇵🇰 Serving Pakistan · 6 VAC Offices</div>
+        <h1>Apply for Your<br>Italian Visa — Fairly</h1>
+        <p>A queue-based system that gives everyone a fair chance. No bots. No agents needed. Available in Urdu.</p>
+        <div class="hbtns">
+          <!-- FIX #1: Start My Application with loading spinner -->
+          <button class="hbm" id="startBtn" onclick="startApplication()">
+            <span class="spin"></span>
+            <span class="btn-label">📋 Start My Application</span>
+          </button>
+          <!-- FIX #4: Co-Pilot button — clear label in hero -->
+          <button class="hbs" onclick="openCopilot()">🤖 Co-Pilot (اردو) <span style="font-size:11px;opacity:.75">— Step-by-step help</span></button>
+        </div>
+        <div class="perks">
+          <span>✓ No agent needed</span><span>✓ Progress auto-saved</span>
+          <span>✓ SMS &amp; email alerts</span><span>✓ Urdu interface</span>
+        </div>
+      </div>
+      <!-- Status Card -->
+      <div class="scard">
+        <h3>📡 Track Your Application</h3>
+        <div class="ig" id="statusForm">
+          <label>Reference Number</label>
+          <input type="text" id="ref" placeholder="e.g. LAH-2025-003847" oninput="clearRefError()">
+          <!-- FIX #3: Actionable error message -->
+          <div class="err-msg" id="refError">
+            <span>⚠️</span>
+            <div>
+              <strong>Reference number not found</strong>
+              Check for typos or spaces. Format: LAH-2025-XXXXXX. <a href="#" style="color:var(--g)">Need help finding it?</a>
+            </div>
+          </div>
+          <label>Date of Birth</label>
+          <input type="date" id="dob">
+        </div>
+        <button class="btn bp" style="width:100%;justify-content:center" id="statusBtn" onclick="checkStatus()">Check Status →</button>
+        <p style="font-size:11px;color:var(--tm);text-align:center;margin-top:7px">No login required · ⚡ Results in seconds</p>
+        <div class="div2">or</div>
+        <button class="btn bs" style="width:100%;justify-content:center" onclick="startApplication()">Start a New Application</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-w">
+  <div class="c">
+    <div class="sh"><span class="ey">How It Works</span><h2>Your Application in 5 Simple Steps</h2><p>Follow these steps to apply independently — no agent needed</p></div>
+    <div class="steps">
+      <div class="step"><div class="sc">📋<div class="sn">1</div></div><h4>Choose Visa Type</h4><p>3 questions to find your category</p></div>
+      <div class="step"><div class="sc">📄<div class="sn">2</div></div><h4>Prepare Documents</h4><p>Get your personalised checklist</p></div>
+      <div class="step"><div class="sc">🎟️<div class="sn">3</div></div><h4>Join the Queue</h4><p>Secure your fair position in line</p></div>
+      <div class="step"><div class="sc">💳<div class="sn">4</div></div><h4>Pay eChallan</h4><p>PKR 11,000 official fee only</p></div>
+      <div class="step"><div class="sc">🏛️<div class="sn">5</div></div><h4>Attend &amp; Submit</h4><p>Visit the VAC on your date</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="status">
+  <div class="c">
+    <div class="sh"><span class="ey">Get Started</span><h2>What Would You Like to Do?</h2></div>
+    <div class="qbanner">
+      <div class="qi"><div class="qdot"></div><div><strong>Queue System — Live &amp; Open</strong><span>Fair appointments, no bots. Your slot is guaranteed.</span></div></div>
+      <div class="qstats">
+        <!-- FIX: Specific date range instead of vague "6–10 days" -->
+        <div class="qs"><strong>6–10</strong><div class="qdate-label">May 26 – Jun 3</div><span>estimated wait</span></div>
+        <div class="qs"><strong>PKR 11K</strong><span>official fee only</span></div>
+        <div class="qs"><strong>3 days</strong><span>to confirm slot</span></div>
+      </div>
+    </div>
+    <div class="agrid">
+      <div class="acard" onclick="startApplication()">
+        <div class="ai aig">📋</div><span class="tag tg" style="margin-bottom:7px">Most Common</span>
+        <h3>Start My Application</h3>
+        <p>Join the fair queue. Get a personalised document checklist and secure your appointment.</p>
+        <div class="arr">Begin Application →</div>
+      </div>
+      <div class="acard" id="checklistCard">
+        <div class="ai aib">📄</div><span class="tag tb" style="margin-bottom:7px">Quick Access</span>
+        <h3>Document Visa Checklist</h3>
+        <p>Find out exactly which documents you need for your visa type — in 30 seconds.</p>
+        <div class="arr" style="color:var(--b)">View Checklist →</div>
+      </div>
+      <!-- FIX #4: Co-Pilot card with clearer description -->
+      <div class="acard" onclick="openCopilot()">
+        <div class="ai aio">🤖</div><span class="tag tb" style="margin-bottom:7px">Available in اردو</span>
+        <h3>Co-Pilot — Guided Help</h3>
+        <p>Stuck? I'll walk you through every step in simple language. Works in English &amp; Urdu, no experience needed.</p>
+        <div class="arr" style="color:var(--b)">Launch Co-Pilot →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cpsec">
+  <div class="c">
+    <div class="cpg">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;font-size:12px;padding:4px 12px;margin-bottom:.9rem">🤖 Guided Help · 24/7</div>
+        <h2>Need Help Applying?<br>Co-Pilot Has You Covered</h2>
+        <p>Guides you through every step in simple language — English or Urdu. Perfect for first-time applicants or remote help.</p>
+        <div class="cpf">
+          <div>Fully available in Urdu (اردو)</div>
+          <div>Explains every field clearly</div>
+          <div>Saves progress automatically</div>
+          <div>Works across multiple sessions</div>
+        </div>
+        <button class="btn" style="background:#fff;color:var(--b);margin-top:1.3rem;font-weight:700" onclick="openCopilot()">Launch Co-Pilot →</button>
+      </div>
+      <div class="cmock">
+        <div class="ch2"><div class="cav">🤖</div><div><strong>Italy VAC Co-Pilot</strong><small>● Online — اردو available</small></div></div>
+        <div class="cbody2">
+          <div class="cm b">Hello! I'm here to help you apply step by step. Which language do you prefer?</div>
+          <div class="cm u">اردو میں مدد کریں</div>
+          <div class="cm b" style="font-family:serif;direction:rtl;line-height:1.9">بالکل! آپ کس ویزے کے لیے درخواست دینا چاہتے ہیں؟</div>
+          <div class="cm u" style="font-family:serif;direction:rtl">فیملی ری یونین ویزا</div>
+        </div>
+        <div class="cin2"><input placeholder="Type your question..." onclick="openCopilot()"><button onclick="openCopilot()">→</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq">
+  <div class="c">
+    <div class="sh"><span class="ey">Help Centre</span><h2>Frequently Asked Questions</h2><p>Most common questions about Italian visa applications</p></div>
+    <div class="fgrid" id="faqGrid"></div>
+  </div>
+</section>
+
+<section class="sec sec-w" id="offices">
+  <div class="c">
+    <div class="sh"><span class="ey">Our Locations</span><h2>VAC Offices Across Pakistan</h2><p>Visit any of our 6 offices to submit your application</p></div>
+    <div class="ogrid">
+      <div class="oc"><strong>📍 Lahore <span class="tag tg" style="font-size:10px">Main</span></strong><p>55-E/1 Gulberg III, Main Boulevard</p><small>Mon–Fri · 8:00am – 4:00pm</small></div>
+      <div class="oc"><strong>📍 Islamabad</strong><p>House 12, Street 22, F-7/2</p><small>Mon–Fri · 8:00am – 4:00pm</small></div>
+      <div class="oc"><strong>📍 Karachi</strong><p>2nd Floor, Clifton Centre</p><small>Mon–Fri · 8:00am – 4:00pm</small></div>
+      <div class="oc"><strong>📍 Faisalabad</strong><p>Canal Road, Near D-Ground</p><small>Mon–Thu · 9:00am – 3:00pm</small></div>
+      <div class="oc"><strong>📍 Multan</strong><p>Gulgasht Colony, Boson Road</p><small>Mon–Thu · 9:00am – 3:00pm</small></div>
+      <div class="oc"><strong>📍 Quetta</strong><p>Jinnah Road, Blue Area</p><small>Mon–Thu · 9:00am – 3:00pm</small></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="c">
+    <div class="fg-foot">
+      <div><div style="display:flex;align-items:center;gap:9px;margin-bottom:10px"><div style="width:32px;height:32px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px">🇮🇹</div><span style="font-size:14px;font-weight:700;color:#fff">Italy VAC Pakistan</span></div><p style="font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.6">Official visa centre operated by Intiana under authorisation from the Embassy of Italy, Islamabad.</p></div>
+      <div class="fc"><h4>Apply</h4><a>Start Application</a><a>Document Checklist</a><a>eChallan Guide</a></div>
+      <div class="fc"><h4>Track &amp; Help</h4><a>Track Application</a><a onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">Help &amp; FAQ</a><a onclick="openCopilot()">Co-Pilot Mode</a></div>
+      <div class="fc"><h4>Offices</h4><a onclick="document.getElementById('offices').scrollIntoView({behavior:'smooth'})">Lahore</a><a>Islamabad</a><a>All Offices</a></div>
+    </div>
+    <div class="fb"><span>© 2025 Intiana · Italy VAC Pakistan · theitalyvisa.com</span><span>Privacy · Terms</span></div>
+  </div>
+</footer>
+
+<script>
+// TOAST
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg||'✅ Done';
+  t.classList.add('on');
+  clearTimeout(t._t);
+  t._t=setTimeout(()=>t.classList.remove('on'),3200);
+}
+
+// LANGUAGE MODAL
+function closeLM(l){
+  document.getElementById('lm').classList.remove('on');
+  if(l==='ur') toast('اردو میں تبدیل ہو گیا ✓');
+}
+
+// FIX #1: Loading spinner on Start Application
+function startApplication(){
+  const btn=document.getElementById('startBtn');
+  if(btn.classList.contains('loading'))return;
+  btn.classList.add('loading');
+  btn.querySelector('.btn-label').textContent='';
+  // simulate navigation after 1.2s
+  setTimeout(()=>{
+    btn.classList.remove('loading');
+    btn.querySelector('.btn-label').textContent='📋 Start My Application';
+    toast('✅ Application form loaded!');
+  },1300);
+}
+
+// FIX #3: Actionable error on invalid ref
+function checkStatus(){
+  const r=document.getElementById('ref');
+  const dob=document.getElementById('dob');
+  const errEl=document.getElementById('refError');
+  if(!r.value.trim()){
+    r.classList.add('err');
+    errEl.classList.add('show');
+    errEl.querySelector('strong').textContent='Reference number is required';
+    errEl.querySelector('div').innerHTML='<strong>Reference number is required</strong>Please enter your reference number in the format LAH-2025-XXXXXX. Find it in your confirmation email.';
+    return;
+  }
+  const validFmt=/^[A-Z]{3}-\d{4}-\d{6}$/i.test(r.value.trim());
+  if(!validFmt){
+    r.classList.add('err');
+    errEl.classList.add('show');
+    errEl.querySelector('div').innerHTML='<strong>Invalid format</strong>Should be like: LAH-2025-003847. Check for spaces or typos. <a href="#" style="color:var(--g)">Need help?</a>';
+    return;
+  }
+  toast('📋 Status: Documents under review — decision expected by Jun 5');
+}
+function clearRefError(){
+  document.getElementById('ref').classList.remove('err');
+  document.getElementById('refError').classList.remove('show');
+}
+
+// FIX #2: Scroll to track section
+function scrollToTrack(){
+  document.getElementById('status').scrollIntoView({behavior:'smooth'});
+}
+
+// FIX #5: Bottom sheet Co-Pilot (mobile)
+function openCopilot(){
+  const ov=document.getElementById('bsOverlay');
+  ov.style.display='flex';
+  setTimeout(()=>ov.classList.add('vis'),10);
+}
+function closeBSFromOverlay(e){
+  if(e.target===document.getElementById('bsOverlay')){
+    const ov=document.getElementById('bsOverlay');
+    ov.classList.remove('vis');
+    setTimeout(()=>{ov.style.display='none';},350);
+  }
+}
+const bsReplies={
+  queue:'The queue is first-come, first-served. When your turn comes (6–10 days), you\'ll get an SMS. You then have 3 days to confirm your slot.',
+  docs:'For a student visa: passport, admission letter, proof of funds, health insurance (€30,000 min), accommodation proof, and eChallan receipt.',
+  fee:'Official VAC fee is PKR 11,000 via eChallan. No agent needed — that\'s the only charge.',
+  urdu:'Yes! Click "Language / زبان" at the top. The full portal switches to Urdu.',
+  def:'I can help with that! Could you tell me your visa type — student, tourist, family, or work?'
+};
+function bsSend(txt){
+  const inp=document.getElementById('bsIn');
+  const msg=(txt||inp.value).trim();
+  if(!msg)return;
+  const box=document.getElementById('bsMsgs');
+  const ud=document.createElement('div');ud.className='bs-msg u';ud.textContent=msg;
+  box.appendChild(ud);inp.value='';box.scrollTop=box.scrollHeight;
+  setTimeout(()=>{
+    const k=msg.toLowerCase();
+    let r=bsReplies.def;
+    if(k.includes('queue'))r=bsReplies.queue;
+    else if(k.includes('doc'))r=bsReplies.docs;
+    else if(k.includes('fee')||k.includes('cost'))r=bsReplies.fee;
+    else if(k.includes('urdu')||k.includes('lang'))r=bsReplies.urdu;
+    const bd=document.createElement('div');bd.className='bs-msg b';bd.textContent=r;
+    box.appendChild(bd);box.scrollTop=box.scrollHeight;
+  },500);
+}
+
+// FAQ
+const FAQS=[
+  {q:'How does the queue system work?',a:"When you submit, you get a position in a first-come, first-served queue. You'll receive SMS and email when your slot is ready — usually within 6–10 days. You have 3 days to confirm."},
+  {q:'What documents do I need for a student visa?',a:'Valid passport (6+ months), university admission letter, proof of financial means, health insurance (min €30,000), accommodation proof, completed visa form, passport photos, and eChallan receipt.'},
+  {q:'What is the official visa fee?',a:'PKR 11,000 via eChallan online or at any designated bank. No agent fees. Keep your receipt — it is required at your appointment.'},
+  {q:'What if my internet drops mid-form?',a:'Your progress is saved automatically after every field. Just return and resume where you left off on any device.'},
+  {q:'Can I use this website in Urdu?',a:'Yes. Click Language / زبان at the top of any page. All labels, instructions, and error messages switch to Urdu. Co-Pilot also works fully in Urdu.'},
+  {q:'How will I know when my visa is approved?',a:"You'll receive SMS and email at each stage. Status is shown in plain language on the Track Status page."},
+];
+(function buildFAQ(){
+  const g=document.getElementById('faqGrid');
+  FAQS.forEach(f=>{
+    g.innerHTML+=`<div class="fi"><div class="fq" onclick="tFAQ(this)">${f.q}<span class="fch">▾</span></div><div class="fa"><div class="fa-in">${f.a}</div></div></div>`;
+  });
+})();
+function tFAQ(el){
+  const a=el.nextElementSibling;const open=el.classList.contains('open');
+  document.querySelectorAll('.fq.open').forEach(q=>{q.classList.remove('open');q.nextElementSibling.classList.remove('open');});
+  if(!open){el.classList.add('open');a.classList.add('open');}
+}
+</script>
+</body>
+</html>
